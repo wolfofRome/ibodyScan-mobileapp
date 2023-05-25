@@ -43,7 +43,6 @@ namespace Amatib.ObjViewer.Presentation
         private bool _isUnloadLoading = false;
         private TouchState _touchState0;
         private TouchState _touchState1;
-
         private Vector3 _center
         {
             get
@@ -418,6 +417,7 @@ namespace Amatib.ObjViewer.Presentation
         }
 
         /// <summary>
+
         /// 角度を取得する
         /// </summary>
         /// <param name="hitInfo"></param>
@@ -436,6 +436,7 @@ namespace Amatib.ObjViewer.Presentation
         }
 
         /// <summary>
+
         /// 衣類を作成する
         /// </summary>
         /// <param name="previewData"></param>

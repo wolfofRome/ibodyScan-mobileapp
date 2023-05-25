@@ -9,7 +9,9 @@ namespace FitAndShape
     public interface ILoginModel
     {
         bool IsLogin { get; }
+
         UniTask<LoginResponse> Login(string phoneNumber, string password, CancellationToken token);
+
     }
 
     public class LoginModel : ILoginModel
@@ -27,12 +29,15 @@ namespace FitAndShape
         }
 
         async UniTask<LoginResponse> ILoginModel.Login(string phoneNumber, string password, CancellationToken token)
+
         {
             IsLogin = false;
 
             HTTPRequest request = null;
 
+
             if (string.IsNullOrWhiteSpace(phoneNumber) || string.IsNullOrWhiteSpace(password))
+
             {
                 Uri uri = new Uri(DEMO_URL);
 

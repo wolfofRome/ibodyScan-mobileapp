@@ -12,6 +12,7 @@ namespace FitAndShape
         public string Password;
         public FitAndShapeServiceType FitAndShapeServiceType;
 
+
         public static bool Exist()
         {
             var loginInfo = PlayerPrefsUtils.GetObject<LoginInfo>(Key);

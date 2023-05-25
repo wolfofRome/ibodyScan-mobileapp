@@ -21,6 +21,7 @@ namespace FitAndShape
 
         CancellationToken _cancellationToken;
         
+
         async void IInitializable.Initialize()
         {
             Initialize();
@@ -150,6 +151,7 @@ namespace FitAndShape
                 switch (loginType)
                 {
                     case LoginType.Demo:
+
                         loginInfo = new LoginInfo() { UserId = string.Empty, Password = string.Empty };
                         loginResponse = await loginModel.Login(loginInfo.UserId, loginInfo.Password, _cancellationToken);
                         break;

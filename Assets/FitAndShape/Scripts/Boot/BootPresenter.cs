@@ -29,6 +29,7 @@ namespace FitAndShape
 
                 LoginResponse loginResponse = await loginModel.Login(loginInfo.UserId, loginInfo.Password, cancellationToken);
 
+
                 PlayerPrefsUtils.SetObject(LoginInfo.Key, loginInfo);
                 PlayerPrefsUtils.SetObject(LoginData.Key, loginResponse.Data);
 
