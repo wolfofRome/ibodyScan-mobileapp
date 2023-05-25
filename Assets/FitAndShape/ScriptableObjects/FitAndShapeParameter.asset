@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3878fd4f55432dc4da64169aad34bee3, type: 3}
+  m_Name: FitAndShapeParameter
+  m_EditorClassIdentifier: 
+  _viewportRect: {x: -0.5, y: 0}
+  _measurementViewportRect: {x: 0, y: 0}
+  _fieldOfView: 70
+  _zoomCameraPositionOffsetY: 4.5
+  _apiKey: 0744CE0F-9F0F-43DD-A3F9-6C3F4EF39720
+  _csvUrl: https://api.fit-shape.jp/api
+  _testUrl: https://webgl.fit-shape.jp?token=FuRZgSJnKJR76zXVZOgY4erjRIA5UFi0E8thZbucZdlkOHDcPGfNqItBgHf5&amp;customer_id=1&amp;measurement_number=FS2304288551&amp;preview=off&amp;sp=off&amp;pointcloud=on&amp;gender=male&amp;height=1800&amp;place=mollitia&amp;created_at=2023-04-28T15:53:19+09:00&amp;type=body-measurement
+  _objLoadScale: 0.005
+  _cameraUpperRatio: 10
+  _cameraLowerRatio: 8
+  _upperHeight: 10
+  _lowerHeight: 7
+  _cameraPosition: {x: 0, y: 0, z: 9.5}
+  _postureWarningOffset: 50
+  _host: 

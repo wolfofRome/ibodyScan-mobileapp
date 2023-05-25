@@ -1,0 +1,125 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: b11fd7104a8b4498092a914b0f7f79a9
+  m_SerializeEntries:
+  - m_GUID: 3097970c3b44a406ab5ac80382391ab5
+    m_Address: Assets/Icons/AutoMeasure/icon_rotate_pc.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c6ef7120166f649608a6dffee3052d35
+    m_Address: Assets/Icons/AutoMeasure/icon_move_pc.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 78766c41ac6a54e5d920b0b697f72102
+    m_Address: Assets/Icons/AutoMeasure/icon_zoom_pc.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 955cb3a7755d94803bc9e1c277447add
+    m_Address: Assets/Icons/AutoMeasure/icon_move_sp.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 626985d3bc10146c5aee7b73ca70db0f
+    m_Address: Assets/Icons/AutoMeasure/icon_rotate_sp.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ac03e087d372549d9bad95ea5ccc5956
+    m_Address: Assets/Icons/AutoMeasure/icon_zoom_sp.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 98dc3459c86214bf2a1a66e6cc7cd185
+    m_Address: Assets/Icons/AutoTailor/icon_move_pc.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 66406f713b2de4e8a951821cf8c09711
+    m_Address: Assets/Icons/AutoTailor/icon_move_sp.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4fd35a3ce814148e98413eb15fc8b06c
+    m_Address: Assets/Icons/AutoTailor/icon_rotate_pc.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8eb9aba7cffec42ccb67bfcc82f20364
+    m_Address: Assets/Icons/AutoTailor/icon_rotate_sp.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 69a069c1af6764331837820c70bb33c1
+    m_Address: Assets/Icons/AutoTailor/icon_zoom_pc.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f94a0d366fca74750abccb3f38159c49
+    m_Address: Assets/Icons/AutoTailor/icon_zoom_sp.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 038e51f043efda5499f2aa9db3b44654
+    m_Address: Assets/Icons/FitAndShape/icon_move_pc.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1ca91bdf2518f4142b93bbffbd2a72b1
+    m_Address: Assets/Icons/FitAndShape/icon_move_sp.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ffbcc92f9fa1bc04986b6a88728c979a
+    m_Address: Assets/Icons/FitAndShape/icon_rotate_pc.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 36ce3c36e53de6c479243bf700fab978
+    m_Address: Assets/Icons/FitAndShape/icon_rotate_sp.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 41dc832e8fa03e146b9a721907b20223
+    m_Address: Assets/Icons/FitAndShape/icon_zoom_pc.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7424478efe3c1ed44b87926412fa6950
+    m_Address: Assets/Icons/FitAndShape/icon_zoom_sp.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cf1b67e06b251b04191daba850e15f11
+    m_Address: Assets/FitAndShape/Csv/measurement_ibody.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2cb57cfcc4823c442bb555d9adc4314a
+    m_Address: Assets/FitAndShape/Csv/measurement_fitandshape.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: c6f9ea2d4d90a4c5a9ff4a636c589ae3, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: c02f4a21b08704af39dfcf8d9cbbd1fa, type: 2}
+    - {fileID: 11400000, guid: 4406023c198454d64a3eae479d9d9b4b, type: 2}
