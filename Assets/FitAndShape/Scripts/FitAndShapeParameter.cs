@@ -37,6 +37,7 @@ namespace FitAndShape
         public float GetCameraPositionZ(float height)
         {
             return (float)(_cameraUpperRatio - _cameraLowerRatio) * (float)(height - _lowerHeight) / (float)(_upperHeight - _lowerHeight) + _cameraLowerRatio;
+            //return 8f;
         }
 
         public Vector3 Scale

@@ -299,7 +299,7 @@ namespace FitAndShape
 
             _headerView.OnPreveClick.Subscribe(async _ =>
             {
-                Debug.Log($"HeaderView.OnPreveClick currentState:{_currentState}");
+                //Debug.Log($"HeaderView.OnPreveClick currentState:{_currentState}");
 
                 switch (_currentState)
                 {
@@ -396,7 +396,7 @@ namespace FitAndShape
 
             }).AddTo(_fitAndShapeView);
 
-            _selectItemGroupView.OnButtonClick.Subscribe(async n => 
+            _selectItemGroupView.OnButtonClick.Subscribe(async n => //Here!
             {
                 _headerSelectGroupView.SetSelectItemType(n);
 
@@ -796,6 +796,7 @@ namespace FitAndShape
 
             Vector3 cameraPosition = _fitAndShapeParameter.CameraPosition;
             cameraPosition.z = _fitAndShapeParameter.GetCameraPositionZ(Vector3.Distance(hieghtPosition.StartPosition, hieghtPosition.EndPosition));
+            cameraPosition.z = 7.5f;
 
             _arrowView.SetCameraPosition(cameraPosition);
 
@@ -920,6 +921,26 @@ namespace FitAndShape
             _postureDetailPageFrame.Hide();
             _postureArrowView.Hide();
             _renderTextureUpdater.Hide();
+        }
+
+        public void _Color()
+        {
+            _selectItemGroupView.OnButtonClick.Subscribe(async n => //Here!
+            {
+                _headerSelectGroupView.SetSelectItemType(n);
+
+                switch (n.ToSelectType())
+                {
+                    case SelectType.Color:
+                        ColorType colorType = n.ToColorType();
+                        await LoadModelAsync(colorType, true);
+                        break;
+                    default:
+                        _fitAndShapeView.DefaultAngle = n.ToAngle();
+                        ShowPostureSummary();
+                        break;
+                }
+            }).AddTo(_fitAndShapeView);
         }
     }
 }

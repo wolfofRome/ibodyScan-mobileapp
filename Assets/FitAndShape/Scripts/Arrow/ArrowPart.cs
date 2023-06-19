@@ -49,28 +49,36 @@ namespace FitAndShape
             switch (MeasurementPart)
             {
                 case MeasurementPart.NeckCircumference:
-                case MeasurementPart.RightUpperArmCircumference:
-                case MeasurementPart.LeftUpperArmCircumference:
+                
                 case MeasurementPart.RightThighCircumference:
                 case MeasurementPart.LeftThighCircumference:
                 case MeasurementPart.RightLowerLegMaxCircumference:
                 case MeasurementPart.LeftLowerLegMaxCircumference:
-                case MeasurementPart.RightLowerLegMinCircumference:
-                case MeasurementPart.LeftLowerLegMinCircumference:
-                case MeasurementPart.RightWristCircumference:
-                case MeasurementPart.LeftWristCircumference:
+                
+
                     scale = new Vector3(0.1f, 0.03f, 0.1f);
                     break;
                 case MeasurementPart.ChestCircumference:
                 case MeasurementPart.BustTopCircumference:
-                case MeasurementPart.WaistMaxCircumference:
-                case MeasurementPart.WaistMinCircumference:
+                
                 case MeasurementPart.Hip1Circumference:
                 case MeasurementPart.Hip2Circumference:
                 case MeasurementPart.Hip3Circumference:
                 case MeasurementPart.Hip4Circumference:
                 case MeasurementPart.Hip5Circumference:
                     scale = new Vector3(0.25f, 0.05f, 0.25f);
+                    break;
+                case MeasurementPart.WaistMaxCircumference:
+                case MeasurementPart.WaistMinCircumference:
+                    scale = new Vector3(0.2f, 0.04f, 0.2f);
+                    break;
+                case MeasurementPart.RightWristCircumference:
+                case MeasurementPart.LeftWristCircumference:
+                case MeasurementPart.RightLowerLegMinCircumference:
+                case MeasurementPart.LeftLowerLegMinCircumference:
+                case MeasurementPart.RightUpperArmCircumference:
+                case MeasurementPart.LeftUpperArmCircumference:
+                    scale = new Vector3(0.07f, 0.02f, 0.07f);
                     break;
                 default:
                     break;

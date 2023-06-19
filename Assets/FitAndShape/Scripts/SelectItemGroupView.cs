@@ -1,10 +1,12 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using TMPro;
+using static UnityEditor.Progress;
 
 namespace FitAndShape
 {
@@ -24,11 +26,13 @@ namespace FitAndShape
         Subject<SelectItemType> _onButtonClick = new Subject<SelectItemType>();
 
         List<SelectItemView> _selectItemViewList = new List<SelectItemView>();
+        TMP_Dropdown dropdown;
 
         bool _isAnimation = false;
 
         public void Initialize()
         {
+            // Button Event Here!
             _button.OnClickAsObservable().Where(_ => !_isAnimation).Subscribe(_ =>
             {
                 var item = _selectItemViewList.Where(n => n.Selected).FirstOrDefault();
@@ -39,7 +43,6 @@ namespace FitAndShape
                 }
 
                 _onButtonClick.OnNext(item.SelectItemType);
-
                 HideAnimation();
 
             }).AddTo(this);
@@ -47,6 +50,46 @@ namespace FitAndShape
             _closeButton.OnClickAsObservable().Where(_ => !_isAnimation).Subscribe(_ => HideAnimation()).AddTo(this);
             _backgroundCloseButton.OnClickAsObservable().Where(_ => !_isAnimation).Subscribe(_ => HideAnimation()).AddTo(this);
         }
+
+        public void ColorChange()
+        {
+            dropdown = GameObject.Find("Dropdown_Color").GetComponent<TMPro.TMP_Dropdown>();
+            switch (dropdown.value)
+            {
+                case 0:
+                    _onButtonClick.OnNext(FitAndShape.SelectItemType.Monochrome);
+                    break;
+                case 1:
+                    _onButtonClick.OnNext(FitAndShape.SelectItemType.Color);
+                    break;
+            }
+        }
+
+        public void AngleChange()
+        {
+            switch (GameObject.Find("Dropdown_Angle").GetComponent<TMPro.TMP_Dropdown>().value)
+            {
+                case 0:
+                    _onButtonClick.OnNext(FitAndShape.SelectItemType.Front);
+                    break;
+                case 1:
+                    _onButtonClick.OnNext(FitAndShape.SelectItemType.Back);
+                    break;
+                case 2:
+                    _onButtonClick.OnNext(FitAndShape.SelectItemType.Top);
+                    break;
+                case 3:
+                    _onButtonClick.OnNext(FitAndShape.SelectItemType.Under);
+                    break;
+                case 4:
+                    _onButtonClick.OnNext(FitAndShape.SelectItemType.Left);
+                    break;
+                case 5:
+                    _onButtonClick.OnNext(FitAndShape.SelectItemType.Right);
+                    break;
+            }
+        }
+
 
         public void Show(SelectType selectType, SelectItemType selectItemType)
         {

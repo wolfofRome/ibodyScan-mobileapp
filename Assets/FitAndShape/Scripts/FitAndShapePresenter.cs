@@ -352,6 +352,7 @@ namespace FitAndShape
 
             Vector3 cameraPosition = _fitAndShapeParameter.CameraPosition;
             cameraPosition.z = _fitAndShapeParameter.GetCameraPositionZ(Vector3.Distance(hieghtPosition.StartPosition, hieghtPosition.EndPosition));
+            //cameraPosition.z = 8f;
 
             _arrowView.SetZoomValue();
             _arrowView.SetCameraPosition(cameraPosition);

@@ -207,6 +207,19 @@ namespace FitAndShape
             arrowPart.SetSpriteColor(_defaultColor, "Line");
             arrowPart.Position = position;
 
+            if (measurementPart == MeasurementPart.Hip1Circumference)
+                arrowPart.transform.Translate(0f, -0.4f, 0f);  //HERE!
+            if (measurementPart == MeasurementPart.Hip5Circumference)
+                arrowPart.transform.Translate(0f, -0.2f, 0f);
+
+            if (measurementPart == MeasurementPart.LeftThighCircumference)
+                arrowPart.transform.Translate(0.15f, 0f, 0f);
+            if (measurementPart == MeasurementPart.RightThighCircumference)
+                arrowPart.transform.Translate(-0.15f, 0f, 0f);
+            if (measurementPart == MeasurementPart.LeftUpperArmCircumference)
+                arrowPart.transform.Translate(0.15f, 0f, 0f);
+            if (measurementPart == MeasurementPart.RightUpperArmCircumference)
+                arrowPart.transform.Translate(-0.15f, 0f, 0f);
             _arrowPartList.Add(arrowPart);
         }
 
@@ -256,6 +269,19 @@ namespace FitAndShape
             arrowPart.SetSpriteColor(_defaultColor, "Line");
             arrowPart.Position = position;
 
+            switch (measurementPart)
+            {
+                case MeasurementPart.Hip2Circumference:
+                    arrowPart.transform.Translate(0f, -0.35f, 0f);
+                    break;
+                case MeasurementPart.Hip3Circumference:
+                    arrowPart.transform.Translate(0f, -0.3f, 0f);
+                    break;
+                case MeasurementPart.Hip4Circumference:
+                    arrowPart.transform.Translate(0f, -0.25f, 0f);
+                    break;
+            }
+            
             _arrowPartList.Add(arrowPart);
         }
 

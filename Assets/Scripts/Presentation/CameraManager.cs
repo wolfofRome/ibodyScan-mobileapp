@@ -9,6 +9,8 @@ namespace Amatib.ObjViewer.Presentation
         [SerializeField] private float minFieldOfView;
         [SerializeField] private float maxFieldOfView;
         [SerializeField] private Camera _mainCamera;
+        [SerializeField] private Camera _cameraLine;
+        [SerializeField] private Camera _cameraActiveLine;
 
         private IDisposable _disposable = null;
         private bool _isZoom = false;
@@ -16,7 +18,7 @@ namespace Amatib.ObjViewer.Presentation
         public float Zoom
         {
             get => _mainCamera.fieldOfView;
-            set => _mainCamera.fieldOfView = Mathf.Clamp(value, minFieldOfView, maxFieldOfView);
+            set => _mainCamera.fieldOfView = _cameraLine.fieldOfView = _cameraActiveLine.fieldOfView = Mathf.Clamp(value, minFieldOfView, maxFieldOfView);
         }
 
         public void OnZoom(float value, float zoomTime)
