@@ -290,7 +290,8 @@ namespace FitAndShape
             switch (measurementPart)
             {
                 case MeasurementPart.Hieght:
-                    SetHieght(avatarModel, measurementPart, bodyScale);
+                    //SetHieght(avatarModel, measurementPart, bodyScale);
+                    
                     break;
                 case MeasurementPart.BackShoulderWidth:
                     SetBackShoulderWidth(avatarModel, measurementPart, bodyScale);
@@ -311,7 +312,7 @@ namespace FitAndShape
                     SetLeftArmLength(avatarModel, measurementPart, bodyScale);
                     break;
                 case MeasurementPart.FirstLumbarHeight:
-                    SetFirstLumbarHeight(avatarModel, measurementPart, bodyScale);
+                    //SetFirstLumbarHeight(avatarModel, measurementPart, bodyScale);
                     break;
                 default:
                     return;
