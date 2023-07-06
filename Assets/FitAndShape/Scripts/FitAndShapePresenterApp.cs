@@ -7,6 +7,7 @@ using System.Web;
 using Amatib.ObjViewer.Domain;
 using Amatib.ObjViewer.Infrastructure;
 using Amatib.ObjViewer.Presentation.Loaders;
+using Codice.CM.Client.Differences.Merge;
 using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
@@ -55,6 +56,7 @@ namespace FitAndShape
         IFitAndShapeModelApp _fitAndShapeModelApp;
         DisplayState _currentState = DisplayState.None;
         bool _isLogin = false;
+        int currentColor = 0;
         
         bool IsDemo()
         {
@@ -420,7 +422,9 @@ namespace FitAndShape
             {
                 // マイページクリック
                 _loadingView.Visible = true;
-                
+
+                currentColor = GameObject.Find("Dropdown_Color").GetComponent<TMPro.TMP_Dropdown>().value;
+
                 await _webGroupView.HideAsync(_cancellationToken);
                 
                 _loadingView.Visible = false;
@@ -431,6 +435,7 @@ namespace FitAndShape
 
                 LoginData loginData = PlayerPrefsUtils.GetObject<LoginData>(LoginData.Key);
 
+                
                 await LoadSystemAsync(loginData, _fitAndShapeModelApp.FitAndShapeServiceType);
                 
                 SetLoginData();
@@ -693,13 +698,25 @@ namespace FitAndShape
 
                 _measurementView.CreateMeasurementValueUI(measurementCsvLoader, loginData.Height);
 
-                switch (_fitAndShapeModelApp.FitAndShapeServiceType)
+                //switch (_fitAndShapeModelApp.FitAndShapeServiceType)
+                //{
+                //    case FitAndShapeServiceType.Measuremenet:
+                //        _measurementView.Show();
+                //        await LoadModelAsync(ColorType.Color, false);
+                //        break;
+                //    case FitAndShapeServiceType.Distortion:
+                //        LoadComment(loadCsvModel, loginData.MeasurementNumber).Forget();
+                //        await LoadModelAsync(ColorType.Monochrome, false);
+                //        break;
+                //}
+
+                switch (currentColor)
                 {
-                    case FitAndShapeServiceType.Measuremenet:
+                    case 1:
                         _measurementView.Show();
                         await LoadModelAsync(ColorType.Color, false);
                         break;
-                    case FitAndShapeServiceType.Distortion:
+                    case 0:
                         LoadComment(loadCsvModel, loginData.MeasurementNumber).Forget();
                         await LoadModelAsync(ColorType.Monochrome, false);
                         break;
