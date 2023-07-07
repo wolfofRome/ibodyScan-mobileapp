@@ -713,7 +713,7 @@ namespace FitAndShape
                 switch (currentColor)
                 {
                     case 1:
-                        _measurementView.Show();
+                        //_measurementView.Show();
                         await LoadModelAsync(ColorType.Color, false);
                         break;
                     case 0:
