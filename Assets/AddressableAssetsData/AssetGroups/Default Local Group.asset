@@ -117,6 +117,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ff3f5e6bfc1c80e40abff933bd826f44
+    m_Address: Assets/FitAndShape/Scenes/Transparent.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: c6f9ea2d4d90a4c5a9ff4a636c589ae3, type: 2}
   m_SchemaSet:
