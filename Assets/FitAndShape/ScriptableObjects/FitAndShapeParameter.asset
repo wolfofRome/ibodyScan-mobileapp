@@ -26,4 +26,4 @@ MonoBehaviour:
   _lowerHeight: 7
   _cameraPosition: {x: 0, y: 0, z: 9.5}
   _postureWarningOffset: 50
-  _host: 
+  _host: api.fit-shape.jp

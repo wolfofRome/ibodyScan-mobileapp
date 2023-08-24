@@ -18,7 +18,7 @@ MonoBehaviour:
   _zoomCameraPositionOffsetY: 4.5
   _apiKey: 0744CE0F-9F0F-43DD-A3F9-6C3F4EF39720
   _csvUrl: https://api.fit-shape.jp/api
-  _testUrl: https://webgl.fit-shape.jp?token=FuRZgSJnKJR76zXVZOgY4erjRIA5UFi0E8thZbucZdlkOHDcPGfNqItBgHf5&amp;customer_id=1&amp;measurement_number=FS2304288551&amp;preview=off&amp;sp=off&amp;pointcloud=on&amp;gender=male&amp;height=1800&amp;place=mollitia&amp;created_at=2023-04-28T15:53:19+09:00&amp;type=body-measurement
+  _testUrl: https://webgl.fit-shape.jp?token=FuRZgSJnKJR76zXVZOgY4erjRIA5UFi0E8thZbucZdlkOHDcPGfNqItBgHf5&amp;customer_id=1&amp;measurement_number=FS2308086671&amp;preview=off&amp;sp=off&amp;pointcloud=on&amp;gender=male&amp;height=1800&amp;place=mollitia&amp;created_at=2023-04-28T15:53:19+09:00&amp;type=body-measurement
   _objLoadScale: 0.005
   _cameraUpperRatio: 10
   _cameraLowerRatio: 8

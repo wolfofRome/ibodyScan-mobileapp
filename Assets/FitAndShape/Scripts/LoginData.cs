@@ -7,7 +7,7 @@ namespace FitAndShape
     public sealed class LoginData
     {
         public readonly static string Key = "LoginData";
-        public readonly static string DemoMeasurementNumber = "FS9999999999";
+        public readonly static string DemoMeasurementNumber = "FS2308086671";
 
         [SerializeField] string fitandshape_user_session;
         [SerializeField] string customer_id;

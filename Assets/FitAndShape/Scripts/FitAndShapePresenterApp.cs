@@ -669,6 +669,7 @@ namespace FitAndShape
                 _fitAndShapeModelApp = new FitAndShapeModelApp(serviceType);
 
                 _client = new ApiClient(_fitAndShapeParameter.Host, loginData.MeasurementNumber, string.Empty, loginData.Token);
+                           
 
                 ILoadCsvModel loadCsvModel = new LoadCsvModel();
 
@@ -687,6 +688,13 @@ namespace FitAndShape
                 IMeasurementCsvLoader measurementCsvLoader = new MeasurementCsvLoader(csv.GetRowValues(0));
 
                 MemoryStream memoryStream = await _client.Download("scan_data_hires.obj");
+
+                //wolf
+                if(loginData.MeasurementNumber == "FS2308086671")
+                {
+                    _client = new ApiClient(_fitAndShapeParameter.Host, loginData.MeasurementNumber, string.Empty, "9PNaHRfVMLZXDIrnVyOmzpZ24Y7KaFz9XgomZvhRXqk7E7s4XpyJENDtdYr1");
+                    memoryStream = await _client.Download("scan_data.fbx");
+                }             
 
                 _objLines = ObjLoader.LoadAsStream(memoryStream);
 
