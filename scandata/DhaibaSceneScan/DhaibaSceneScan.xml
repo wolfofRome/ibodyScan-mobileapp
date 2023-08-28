@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ElementPackage>
+ <Version>2.18.25612</Version>
+ <MacroList>
+  <Macro>
+   <Key>APPLIES_SCENE_FILE_UPDATE_R24797</Key>
+   <Value>FALSE</Value>
+  </Macro>
+ </MacroList>
+ <NumElements>9</NumElements>
+ <Names>Fundamentals ReleaseNote my3dNetworkCameraSet myRegionBox myPointCloudXYZCUV m_object pc_object myShapePlane myShapePlane1 </Names>
+ <Types>ElementGroup Note 3dNetworkCameraSet RegionBox PointCloudXYZCUV Mesh PointCloudAsFaceInternal ShapePlane ShapePlane </Types>
+ <ElementRelations>
+  <my3dNetworkCameraSet>myRegionBox,myShapePlane,myPointCloudXYZCUV</my3dNetworkCameraSet>
+  <pc_object>m_object</pc_object>
+ </ElementRelations>
+ <ElementGroup>
+  <Name>Fundamentals</Name>
+  <TypeName>ElementGroup</TypeName>
+  <SerialNumber>17867990</SerialNumber>
+  <IsHidden>False</IsHidden>
+  <PackageNameForProtection></PackageNameForProtection>
+  <NumParents>0</NumParents>
+  <NumChildren>0</NumChildren>
+  <Parents></Parents>
+  <Children></Children>
+  <Visible>true</Visible>
+  <GroupChildren>myAttrRenderingManager</GroupChildren>
+ </ElementGroup>
+ <Note>
+  <Name>ReleaseNote</Name>
+  <TypeName>Note</TypeName>
+  <SerialNumber>44278972</SerialNumber>
+  <IsHidden>False</IsHidden>
+  <PackageNameForProtection></PackageNameForProtection>
+  <NumParents>0</NumParents>
+  <NumChildren>0</NumChildren>
+  <Parents></Parents>
+  <Children></Children>
+  <UsesPythonHighlight>False</UsesPythonHighlight>
+  <FilePath>$LOCAL$DhaibaSceneScan\ReleaseNote.bin</FilePath>
+ </Note>
+ <_3dNetworkCameraSet>
+  <Name>my3dNetworkCameraSet</Name>
+  <TypeName>3dNetworkCameraSet</TypeName>
+  <SerialNumber>37031633</SerialNumber>
+  <IsHidden>False</IsHidden>
+  <PackageNameForProtection></PackageNameForProtection>
+  <NumParents>0</NumParents>
+  <NumChildren>0</NumChildren>
+  <Parents></Parents>
+  <Children></Children>
+  <Visible>true</Visible>
+  <RegionRef>myRegionBox</RegionRef>
+  <PlaneRef>myShapePlane</PlaneRef>
+  <PointCloudRef>myPointCloudXYZCUV</PointCloudRef>
+  <DummyObjectRef></DummyObjectRef>
+  <PostProcessNoteRef></PostProcessNoteRef>
+  <PreviewEnabled>True</PreviewEnabled>
+  <ShowsPointsForAllDevices>False</ShowsPointsForAllDevices>
+  <PreviewMode>0</PreviewMode>
+  <ShowsDummyVisibility>False</ShowsDummyVisibility>
+  <PostProcessType>0</PostProcessType>
+  <NoiseReductionRadius>0</NoiseReductionRadius>
+  <NoiseReductionPointCount>9</NoiseReductionPointCount>
+  <CutoffAngleDeg>50</CutoffAngleDeg>
+  <CutoffMarginPixels>5</CutoffMarginPixels>
+  <CaptureDelay>5000</CaptureDelay>
+  <RemovesBoundaryPoints>False</RemovesBoundaryPoints>
+  <GlobalCalibrationMode>4</GlobalCalibrationMode>
+  <GeneratesPointCluster>True</GeneratesPointCluster>
+  <KnownObjectRef>pc_object</KnownObjectRef>
+  <BeepEnabled>True</BeepEnabled>
+  <LocalServerProcessor>Ni/ASTRA S</LocalServerProcessor>
+  <KnownObjectCalibrationParams>
+   <samplePointCount>1000</samplePointCount>
+   <icpTol>50</icpTol>
+   <icpIterationCount>200</icpIterationCount>
+   <randomChallengeCount>1</randomChallengeCount>
+   <searchCountAtChallenge>1</searchCountAtChallenge>
+   <maxPerturbationTrans>0 0 0</maxPerturbationTrans>
+   <maxPerturbationAngleDeg>0 0 0</maxPerturbationAngleDeg>
+   <firstPointSearchRadius>50</firstPointSearchRadius>
+   <stddevTol>0.06</stddevTol>
+   <errTol>1000</errTol>
+  </KnownObjectCalibrationParams>
+  <ColorImageExposure>100</ColorImageExposure>
+  <ColorImageWhiteBalance>2900</ColorImageWhiteBalance>
+  <AppliesCustomColorImageExposure>False</AppliesCustomColorImageExposure>
+  <Machine>
+   <Name>Machine</Name>
+   <MACAddressList>30:05:05:ED:51:7F</MACAddressList>
+   <IpAddress>192.168.50.199</IpAddress>
+   <Port>8082</Port>
+   <ProcessorPrefix>Ni</ProcessorPrefix>
+   <ProductName>ASTRA S</ProductName>
+  </Machine>
+  <Transform>
+   <Name>Transform0</Name>
+   <Matrix>0.0102177 0.998887 -0.0461647 0 0.688059 0.0264759 0.725167 0 0.725574 -0.0391716 -0.687021 0 -715.38 1664.35 729.779 1</Matrix>
+   <CalibObject></CalibObject>
+  </Transform>
+  <Transform>
+   <Name>Transform1</Name>
+   <Matrix>0.0181782 0.999804 -0.00771638 0 0.75117 -0.00856231 0.660052 0 0.659856 -0.0177957 -0.75118 0 -707.596 1041.75 740.463 1</Matrix>
+   <CalibObject></CalibObject>
+  </Transform>
+  <Transform>
+   <Name>Transform2</Name>
+   <Matrix>-0.00585404 0.998009 -0.0626622 0 0.824237 -0.0306628 -0.56541 0 -0.566208 -0.0549578 -0.822428 0 577.472 1632.85 726.066 1</Matrix>
+   <CalibObject></CalibObject>
+  </Transform>
+  <Transform>
+   <Name>Transform3</Name>
+   <Matrix>-0.0601456 0.996659 0.0552037 0 0.875689 0.0792292 -0.476326 0 -0.479114 0.0196939 -0.877528 0 534.022 1030.7 765.497 1</Matrix>
+   <CalibObject></CalibObject>
+  </Transform>
+  <Transform>
+   <Name>Transform4</Name>
+   <Matrix>0.0192641 0.99981 -0.00201594 0 -0.761618 0.0133669 -0.647883 0 -0.647734 0.0140154 0.761737 0 607.26 1613.38 -751.713 1</Matrix>
+   <CalibObject></CalibObject>
+  </Transform>
+  <Transform>
+   <Name>Transform5</Name>
+   <Matrix>0.00369681 0.999961 -0.00824691 0 -0.814484 -0.00177327 -0.580172 0 -0.580167 0.00886328 0.81445 0 629.175 996.448 -737.376 1</Matrix>
+   <CalibObject></CalibObject>
+  </Transform>
+  <Transform>
+   <Name>Transform6</Name>
+   <Matrix>-0.00841236 0.999852 -0.0133621 0 -0.808938 0.00104988 0.587883 0 0.58782 0.0157562 0.808832 0 -676.377 1659.5 -761.436 1</Matrix>
+   <CalibObject></CalibObject>
+  </Transform>
+  <Transform>
+   <Name>Transform7</Name>
+   <Matrix>-0.00547087 0.999764 -0.0206671 0 -0.851422 0.00618296 0.524452 0 0.524462 0.0204664 0.851194 0 -670.962 1010.86 -766.64 1</Matrix>
+   <CalibObject></CalibObject>
+  </Transform>
+  <Transform>
+   <Name>Transform8</Name>
+   <Matrix>-0.0196356 0.99944 0.0271155 0 0.72027 -0.00466953 0.693676 0 0.693417 0.0331521 -0.719776 0 -726.093 363.719 722.168 1</Matrix>
+   <CalibObject></CalibObject>
+  </Transform>
+  <Transform>
+   <Name>Transform9</Name>
+   <Matrix>-0.0199829 0.998881 -0.0425709 0 0.782534 -0.010877 -0.622508 0 -0.62228 -0.0457547 -0.781455 0 590.184 380.641 758.536 1</Matrix>
+   <CalibObject></CalibObject>
+  </Transform>
+  <Transform>
+   <Name>Transform10</Name>
+   <Matrix>-0.0561562 0.997331 -0.0466139 0 -0.756392 -0.0729715 -0.650038 0 -0.651704 -0.00124498 0.758472 0 627.358 366.364 -740.393 1</Matrix>
+   <CalibObject></CalibObject>
+  </Transform>
+  <Transform>
+   <Name>Transform11</Name>
+   <Matrix>-0.0767837 0.996975 0.0121699 0 -0.868423 -0.0728701 0.490444 0 0.489843 0.0270892 0.871388 0 -644.573 379.181 -790.396 1</Matrix>
+   <CalibObject></CalibObject>
+  </Transform>
+  <Device>
+   <Name>Device</Name>
+   <MachineRef>Machine</MachineRef>
+   <DeviceId>17112111414</DeviceId>
+   <TransformRef>Transform0</TransformRef>
+   <ColorOffsetX>0</ColorOffsetX>
+   <ColorOffsetY>-3</ColorOffsetY>
+  </Device>
+  <Device>
+   <Name>Device1</Name>
+   <MachineRef>Machine</MachineRef>
+   <DeviceId>17122211463</DeviceId>
+   <TransformRef>Transform1</TransformRef>
+   <ColorOffsetX>-7</ColorOffsetX>
+   <ColorOffsetY>20</ColorOffsetY>
+  </Device>
+  <Device>
+   <Name>Device2</Name>
+   <MachineRef>Machine</MachineRef>
+   <DeviceId>17122011262</DeviceId>
+   <TransformRef>Transform2</TransformRef>
+   <ColorOffsetX>-14</ColorOffsetX>
+   <ColorOffsetY>9</ColorOffsetY>
+  </Device>
+  <Device>
+   <Name>Device3</Name>
+   <MachineRef>Machine</MachineRef>
+   <DeviceId>17112210222</DeviceId>
+   <TransformRef>Transform3</TransformRef>
+   <ColorOffsetX>8</ColorOffsetX>
+   <ColorOffsetY>-1</ColorOffsetY>
+  </Device>
+  <Device>
+   <Name>Device4</Name>
+   <MachineRef>Machine</MachineRef>
+   <DeviceId>17112011387</DeviceId>
+   <TransformRef>Transform4</TransformRef>
+   <ColorOffsetX>-16</ColorOffsetX>
+   <ColorOffsetY>5</ColorOffsetY>
+  </Device>
+  <Device>
+   <Name>Device5</Name>
+   <MachineRef>Machine</MachineRef>
+   <DeviceId>17122110729</DeviceId>
+   <TransformRef>Transform5</TransformRef>
+   <ColorOffsetX>-9</ColorOffsetX>
+   <ColorOffsetY>12</ColorOffsetY>
+  </Device>
+  <Device>
+   <Name>Device6</Name>
+   <MachineRef>Machine</MachineRef>
+   <DeviceId>17122211861</DeviceId>
+   <TransformRef>Transform6</TransformRef>
+   <ColorOffsetX>-12</ColorOffsetX>
+   <ColorOffsetY>18</ColorOffsetY>
+  </Device>
+  <Device>
+   <Name>Device7</Name>
+   <MachineRef>Machine</MachineRef>
+   <DeviceId>17112310646</DeviceId>
+   <TransformRef>Transform7</TransformRef>
+   <ColorOffsetX>0</ColorOffsetX>
+   <ColorOffsetY>9</ColorOffsetY>
+  </Device>
+  <Device>
+   <Name>Device8</Name>
+   <MachineRef>Machine</MachineRef>
+   <DeviceId>17121913275</DeviceId>
+   <TransformRef>Transform8</TransformRef>
+   <ColorOffsetX>0</ColorOffsetX>
+   <ColorOffsetY>19</ColorOffsetY>
+  </Device>
+  <Device>
+   <Name>Device9</Name>
+   <MachineRef>Machine</MachineRef>
+   <DeviceId>17112210141</DeviceId>
+   <TransformRef>Transform9</TransformRef>
+   <ColorOffsetX>5</ColorOffsetX>
+   <ColorOffsetY>-1</ColorOffsetY>
+  </Device>
+  <Device>
+   <Name>Device10</Name>
+   <MachineRef>Machine</MachineRef>
+   <DeviceId>17112111308</DeviceId>
+   <TransformRef>Transform10</TransformRef>
+   <ColorOffsetX>-8</ColorOffsetX>
+   <ColorOffsetY>-4</ColorOffsetY>
+  </Device>
+  <Device>
+   <Name>Device11</Name>
+   <MachineRef>Machine</MachineRef>
+   <DeviceId>17112210218</DeviceId>
+   <TransformRef>Transform11</TransformRef>
+   <ColorOffsetX>13</ColorOffsetX>
+   <ColorOffsetY>-2</ColorOffsetY>
+  </Device>
+ </_3dNetworkCameraSet>
+ <RegionBox>
+  <Name>myRegionBox</Name>
+  <TypeName>RegionBox</TypeName>
+  <SerialNumber>50074438</SerialNumber>
+  <IsHidden>False</IsHidden>
+  <PackageNameForProtection></PackageNameForProtection>
+  <NumParents>0</NumParents>
+  <NumChildren>0</NumChildren>
+  <Parents></Parents>
+  <Children></Children>
+  <Visible>true</Visible>
+  <TransformMatrix>1100 0 0 0 0 2000 0 0 0 0 695.694 0 -550 20 -343.986 1</TransformMatrix>
+ </RegionBox>
+ <PointCloudXYZCUV>
+  <Name>myPointCloudXYZCUV</Name>
+  <TypeName>PointCloudXYZCUV</TypeName>
+  <SerialNumber>91861864</SerialNumber>
+  <IsHidden>False</IsHidden>
+  <PackageNameForProtection></PackageNameForProtection>
+  <NumParents>0</NumParents>
+  <NumChildren>0</NumChildren>
+  <Parents></Parents>
+  <Children></Children>
+  <Visible>false</Visible>
+  <TransformMatrix>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</TransformMatrix>
+  <FilePath>$LOCAL$DhaibaSceneScan\myPointCloudXYZCUV.dbin</FilePath>
+ </PointCloudXYZCUV>
+ <Mesh>
+  <Name>m_object</Name>
+  <TypeName>Mesh</TypeName>
+  <SerialNumber>13766610</SerialNumber>
+  <IsHidden>False</IsHidden>
+  <PackageNameForProtection></PackageNameForProtection>
+  <NumParents>0</NumParents>
+  <NumChildren>0</NumChildren>
+  <Parents></Parents>
+  <Children></Children>
+  <Visible>true</Visible>
+  <FaceColor>0.588235 0.588235 0.588235 1</FaceColor>
+  <UseTransparency>True</UseTransparency>
+  <Transparency>0.5</Transparency>
+  <LightEnabled>True</LightEnabled>
+  <TransformMatrix>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</TransformMatrix>
+  <DataType>EXTRABIN</DataType>
+  <FilePath>$LOCAL$DhaibaSceneScan\m_object.dbin</FilePath>
+ </Mesh>
+ <PointCloudAsFaceInternal>
+  <Name>pc_object</Name>
+  <TypeName>PointCloudAsFaceInternal</TypeName>
+  <SerialNumber>97303818</SerialNumber>
+  <IsHidden>False</IsHidden>
+  <PackageNameForProtection></PackageNameForProtection>
+  <NumParents>0</NumParents>
+  <NumChildren>0</NumChildren>
+  <Parents></Parents>
+  <Children></Children>
+  <Visible>false</Visible>
+  <TransformMatrix>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</TransformMatrix>
+  <FilePath>$LOCAL$DhaibaSceneScan\pc_object.dbin</FilePath>
+  <RefMesh>m_object</RefMesh>
+ </PointCloudAsFaceInternal>
+ <ShapePlane>
+  <Name>myShapePlane</Name>
+  <TypeName>ShapePlane</TypeName>
+  <SerialNumber>82103851</SerialNumber>
+  <IsHidden>False</IsHidden>
+  <PackageNameForProtection></PackageNameForProtection>
+  <NumParents>0</NumParents>
+  <NumChildren>0</NumChildren>
+  <Parents></Parents>
+  <Children></Children>
+  <Visible>true</Visible>
+  <FaceColor>0.588235 0.588235 0.588235 1</FaceColor>
+  <UseTransparency>False</UseTransparency>
+  <Transparency>0.5</Transparency>
+  <LightEnabled>True</LightEnabled>
+  <TransformMatrix>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</TransformMatrix>
+  <Translate>-650 0 -1050 0</Translate>
+  <Rotate>0 0 0 0</Rotate>
+  <Scale>1300 1 2100 0</Scale>
+  <DivisionCount>6,6,</DivisionCount>
+  <UvType>1</UvType>
+  <UvVector1>1 0 0 0</UvVector1>
+  <UvVector2>0 1 0 0</UvVector2>
+ </ShapePlane>
+ <ShapePlane>
+  <Name>myShapePlane1</Name>
+  <TypeName>ShapePlane</TypeName>
+  <SerialNumber>58946045</SerialNumber>
+  <IsHidden>False</IsHidden>
+  <PackageNameForProtection></PackageNameForProtection>
+  <NumParents>0</NumParents>
+  <NumChildren>0</NumChildren>
+  <Parents></Parents>
+  <Children></Children>
+  <Visible>false</Visible>
+  <FaceColor>0.588235 0.588235 0.588235 1</FaceColor>
+  <UseTransparency>False</UseTransparency>
+  <Transparency>0.5</Transparency>
+  <LightEnabled>True</LightEnabled>
+  <TransformMatrix>1 0 0 0 0 1 0 0 0 0 1 0 462.679 5.32294 -428.108 1</TransformMatrix>
+  <Translate>0 0 0 0</Translate>
+  <Rotate>0 0 0 0</Rotate>
+  <Scale>1000 1000 1000 0</Scale>
+  <DivisionCount>6,6,</DivisionCount>
+  <UvType>3</UvType>
+  <UvVector1>0 0 1 0</UvVector1>
+  <UvVector2>-1 -0 -0 -0</UvVector2>
+ </ShapePlane>
+ <ExtraInformation>
+  <StageManager>
+   <CurrentStage></CurrentStage>
+   <SyncsMainView>True</SyncsMainView>
+   <AppendsNewElementsToCurrentStage>True</AppendsNewElementsToCurrentStage>
+  </StageManager>
+ </ExtraInformation>
+</ElementPackage>

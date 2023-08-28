@@ -1,0 +1,17 @@
+#unity-canvas {
+    background: #242524
+}
+
+#unity-loading-bar {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: none
+}
+
+#unity-logo {
+    width: 1000px;
+    height: 700px;
+    background: url('loading.png') no-repeat center
+}

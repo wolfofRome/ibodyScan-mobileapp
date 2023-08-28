@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b032b7f528a5b9a4c96b65a45ca0640b, type: 3}
+  m_Name: PostureAdviceAsset
+  m_EditorClassIdentifier: 
+  _postureAdviceList:
+  - _postureVerifyPoint: 0
+    _partSprite: {fileID: 21300000, guid: aee84ba3fd182304a83e3dad11b7ac5a, type: 3}
+    _treatmentSprite: {fileID: 21300000, guid: 76617c835e63de1468c0097196d5ba8b, type: 3}
+    _postureAdvicePoint: 3
+  - _postureVerifyPoint: 1
+    _partSprite: {fileID: 0}
+    _treatmentSprite: {fileID: 0}
+    _postureAdvicePoint: 0
+  - _postureVerifyPoint: 2
+    _partSprite: {fileID: 21300000, guid: aee84ba3fd182304a83e3dad11b7ac5a, type: 3}
+    _treatmentSprite: {fileID: 21300000, guid: 76617c835e63de1468c0097196d5ba8b, type: 3}
+    _postureAdvicePoint: 3
+  - _postureVerifyPoint: 3
+    _partSprite: {fileID: 21300000, guid: 3a46e9978e9375743a5aaa0078258c93, type: 3}
+    _treatmentSprite: {fileID: 21300000, guid: baacf834f0b17f14b869245e92cf958d, type: 3}
+    _postureAdvicePoint: 4
+  - _postureVerifyPoint: 4
+    _partSprite: {fileID: 0}
+    _treatmentSprite: {fileID: 0}
+    _postureAdvicePoint: 0
+  - _postureVerifyPoint: 5
+    _partSprite: {fileID: 21300000, guid: 8222d48089ca7fa4dbac3565c5bf5f26, type: 3}
+    _treatmentSprite: {fileID: 21300000, guid: 87c9d972c0f067b4d86393386cdeed5b, type: 3}
+    _postureAdvicePoint: 2
+  - _postureVerifyPoint: 6
+    _partSprite: {fileID: 0}
+    _treatmentSprite: {fileID: 0}
+    _postureAdvicePoint: 0
+  - _postureVerifyPoint: 7
+    _partSprite: {fileID: 21300000, guid: aee84ba3fd182304a83e3dad11b7ac5a, type: 3}
+    _treatmentSprite: {fileID: 21300000, guid: 51414c00e15667645bfe6e1ab4f3ea7d, type: 3}
+    _postureAdvicePoint: 3
+  - _postureVerifyPoint: 8
+    _partSprite: {fileID: 0}
+    _treatmentSprite: {fileID: 0}
+    _postureAdvicePoint: 0
+  - _postureVerifyPoint: 9
+    _partSprite: {fileID: 21300000, guid: 8222d48089ca7fa4dbac3565c5bf5f26, type: 3}
+    _treatmentSprite: {fileID: 21300000, guid: 87c9d972c0f067b4d86393386cdeed5b, type: 3}
+    _postureAdvicePoint: 2
+  - _postureVerifyPoint: 10
+    _partSprite: {fileID: 21300000, guid: aee84ba3fd182304a83e3dad11b7ac5a, type: 3}
+    _treatmentSprite: {fileID: 21300000, guid: 76617c835e63de1468c0097196d5ba8b, type: 3}
+    _postureAdvicePoint: 3
+  - _postureVerifyPoint: 11
+    _partSprite: {fileID: 21300000, guid: aee84ba3fd182304a83e3dad11b7ac5a, type: 3}
+    _treatmentSprite: {fileID: 21300000, guid: 51414c00e15667645bfe6e1ab4f3ea7d, type: 3}
+    _postureAdvicePoint: 3
+  - _postureVerifyPoint: 12
+    _partSprite: {fileID: 21300000, guid: 8222d48089ca7fa4dbac3565c5bf5f26, type: 3}
+    _treatmentSprite: {fileID: 21300000, guid: 87c9d972c0f067b4d86393386cdeed5b, type: 3}
+    _postureAdvicePoint: 2
+  - _postureVerifyPoint: 13
+    _partSprite: {fileID: 21300000, guid: 87efae1a82865ec41b58264857126086, type: 3}
+    _treatmentSprite: {fileID: 21300000, guid: 0b3686b4ff7a2284f839892d56fd2ecd, type: 3}
+    _postureAdvicePoint: 1
+  - _postureVerifyPoint: 14
+    _partSprite: {fileID: 21300000, guid: aee84ba3fd182304a83e3dad11b7ac5a, type: 3}
+    _treatmentSprite: {fileID: 21300000, guid: 76617c835e63de1468c0097196d5ba8b, type: 3}
+    _postureAdvicePoint: 3
+  - _postureVerifyPoint: 15
+    _partSprite: {fileID: 21300000, guid: aee84ba3fd182304a83e3dad11b7ac5a, type: 3}
+    _treatmentSprite: {fileID: 21300000, guid: 76617c835e63de1468c0097196d5ba8b, type: 3}
+    _postureAdvicePoint: 3
