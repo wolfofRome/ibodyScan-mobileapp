@@ -30,6 +30,8 @@ namespace Amatib.ObjViewer.Infrastructure
 
         public async UniTask<MemoryStream> Download(string fileName)
         {
+            //TODO: リトライやエラーハンドリングがちょっと雑（呼び出し元でExceptionをCatch出来ていない）
+            //TODO: Authorizationヘッダーは引数で受けるようにする？
             //UriBuilder builder = new UriBuilder($"https://{_apiHost}/api/measurements/{_measurementNumber}/files/{fileName}");
             UriBuilder builder = new UriBuilder($"https://{_apiHost}/api/measurements/{_measurementNumber}/files/{fileName}");
 
@@ -72,6 +74,7 @@ namespace Amatib.ObjViewer.Infrastructure
             request.SetRequestHeader("Authorization", "9PNaHRfVMLZXDIrnVyOmzpZ24Y7KaFz9XgomZvhRXqk7E7s4XpyJENDtdYr1");
             Debug.LogWarning(builder.ToString());
             await request.SendWebRequest();
+            Debug.Log("[Download]: end.");
             return new MemoryStream(request.downloadHandler.data);
         }
     }
