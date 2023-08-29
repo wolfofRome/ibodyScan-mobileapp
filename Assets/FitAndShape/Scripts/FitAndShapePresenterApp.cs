@@ -66,6 +66,7 @@ namespace FitAndShape
 
         async void IInitializable.Initialize()
         {
+            Debug.Log("[FitAndShapePresenterApp Initialize]: start");
             _fitAndShapeView.CameraVisible = true;
 
             if (!LoginData.Exist())
@@ -687,13 +688,17 @@ namespace FitAndShape
 
                 IMeasurementCsvLoader measurementCsvLoader = new MeasurementCsvLoader(csv.GetRowValues(0));
 
-                MemoryStream memoryStream = await _client.Download("scan_data_hires.obj");
+                string fileName = "scan_data_hires.obj";
+                MemoryStream memoryStream = await _client.Download(fileName);
+                Debug.Log($@"[LoadSystemAsync]: {fileName} downloaded");
 
-                //wolf
+                // DEBUG: wolf <- what is this?
                 if(loginData.MeasurementNumber == "FS2308086671")
                 {
+                    Debug.Log("[FS2308086671]: download scan_data.fbx start");
                     _client = new ApiClient(_fitAndShapeParameter.Host, loginData.MeasurementNumber, string.Empty, "9PNaHRfVMLZXDIrnVyOmzpZ24Y7KaFz9XgomZvhRXqk7E7s4XpyJENDtdYr1");
                     memoryStream = await _client.Download("scan_data.fbx");
+                    Debug.Log("[FS2308086671]: download scan_data.fbx end");
                 }             
 
                 _objLines = ObjLoader.LoadAsStream(memoryStream);

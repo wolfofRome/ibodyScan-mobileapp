@@ -30,6 +30,8 @@ namespace Amatib.ObjViewer.Infrastructure
 
         public async UniTask<MemoryStream> Download(string fileName)
         {
+            //TODO: リトライやエラーハンドリングがちょっと雑（呼び出し元でExceptionをCatch出来ていない）
+            //TODO: Authorizationヘッダーは引数で受けるようにする？
             //UriBuilder builder = new UriBuilder($"https://{_apiHost}/api/measurements/{_measurementNumber}/files/{fileName}");
             UriBuilder builder = new UriBuilder($"https://{_apiHost}/api/measurements/{_measurementNumber}/files/{fileName}");
 
@@ -70,8 +72,9 @@ namespace Amatib.ObjViewer.Infrastructure
             using var request = UnityWebRequest.Get(builder.ToString());
             //using var request = UnityWebRequest.Get("https://api.fit-shape.jp/api/measurements/FS2308086671/files/scan_data.fbx?token=9PNaHRfVMLZXDIrnVyOmzpZ24Y7KaFz9XgomZvhRXqk7E7s4XpyJENDtdYr1");
             request.SetRequestHeader("Authorization", "9PNaHRfVMLZXDIrnVyOmzpZ24Y7KaFz9XgomZvhRXqk7E7s4XpyJENDtdYr1");
-            Debug.LogError(builder.ToString());
+            Debug.LogWarning(builder.ToString());
             await request.SendWebRequest();
+            Debug.Log("[Download]: end.");
             return new MemoryStream(request.downloadHandler.data);
         }
     }

@@ -7,7 +7,6 @@ namespace FitAndShape
     public sealed class LoginData
     {
         public readonly static string Key = "LoginData";
-        public readonly static string DemoMeasurementNumber = "FS2308086671";
 
         [SerializeField] string fitandshape_user_session;
         [SerializeField] string customer_id;
@@ -36,7 +35,7 @@ namespace FitAndShape
             return $"UserSession:{UserSession}, CustomerID:{CustomerID}, Gnder:{Gnder}, MeasurementNumber:{MeasurementNumber}, Place:{Place}, CreatedAt:{CreatedAt}, Token:{Token}, Height:{Height}";
         }
 
-        public bool IsDemo => measurement_number == DemoMeasurementNumber;
+        public bool IsDemo => measurement_number == FSConstants.DEMO_MEASUREMENT_NUMBER;
 
         public static bool Exist()
         {

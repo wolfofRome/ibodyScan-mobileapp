@@ -61,7 +61,8 @@ namespace FitAndShape
                 HideMeasurement();
                 HidePostureSummary();
 
-                _client = new ApiClient(_parameter.ApiHost, _parameter.MeasurementNumber, _parameter.Key, _parameter.Token);
+                _client = new ApiClient(_parameter.ApiHost, _parameter.MeasurementNumber, _parameter.Key,
+                    _parameter.Token);
 
                 _scale = _fitAndShapeParameter.Scale;
 
@@ -69,8 +70,9 @@ namespace FitAndShape
 
                 IMeasurementCsvLoader measurementCsvLoader = await GetMeasurementCsvLoader(loadCsvModel);
 
+                // どういう意味？
                 MemoryStream memoryStream = await _client.Download("scan_data_hires.obj");
-
+                Debug.Log("1");
                 _objLines = ObjLoader.LoadAsStream(memoryStream);
 
                 SetObjLines(_objLines, measurementCsvLoader);
@@ -96,7 +98,8 @@ namespace FitAndShape
                         break;
                 }
 
-                _selectGroupView.SelectViewColor.SelectToggleUI(_parameter.FitAndShapeServiceType == FitAndShapeServiceType.Measuremenet ? 0 : 1);
+                _selectGroupView.SelectViewColor.SelectToggleUI(
+                    _parameter.FitAndShapeServiceType == FitAndShapeServiceType.Measuremenet ? 0 : 1);
 
                 RegisterEvent();
 
@@ -128,6 +131,8 @@ namespace FitAndShape
             {
                 _loadingView.Visible = false;
             }
+
+            Debug.Log("[FitAndShapePresenter Initialize] end.");
         }
 
         async UniTask LoadModel(ColorType colorType, bool showLoading)
@@ -145,7 +150,8 @@ namespace FitAndShape
 
                         if (!_modelView.IsLoadPointCloud)
                         {
-                            _modelView.SetPointCloudMesh(PlyLoader.LoadAsMesh(await _client.Download("scan_data.ply"), _scale));
+                            _modelView.SetPointCloudMesh(PlyLoader.LoadAsMesh(await _client.Download("scan_data.ply"),
+                                _scale));
                         }
 
                         _modelView.PointCloudModelVisible = true;
@@ -187,7 +193,8 @@ namespace FitAndShape
 
         async UniTask<IMeasurementCsvLoader> GetMeasurementCsvLoader(ILoadCsvModel loadCsvModel)
         {
-            string measurementUrlString = $"{_fitAndShapeParameter.CsvUrl}/measurements/{_parameter.MeasurementNumber}?type=csv&key={_fitAndShapeParameter.ApiKey}";
+            string measurementUrlString =
+                $"{_fitAndShapeParameter.CsvUrl}/measurements/{_parameter.MeasurementNumber}?type=csv&key={_fitAndShapeParameter.ApiKey}";
             string csvData = await loadCsvModel.GetCsvData(measurementUrlString, _token);
 
             Csv csv = new Csv();
@@ -198,7 +205,8 @@ namespace FitAndShape
 
         async UniTask LoadComment(ILoadCsvModel loadCsvModel)
         {
-            string urlString = $"{_fitAndShapeParameter.CsvUrl}/measurements/{_parameter.MeasurementNumber.Substring(2, _parameter.MeasurementNumber.Length - 2)}/body-distortion-comments?key={_fitAndShapeParameter.ApiKey}";
+            string urlString =
+                $"{_fitAndShapeParameter.CsvUrl}/measurements/{_parameter.MeasurementNumber.Substring(2, _parameter.MeasurementNumber.Length - 2)}/body-distortion-comments?key={_fitAndShapeParameter.ApiKey}";
             string commentData = await loadCsvModel.GetCsvData(urlString, _token);
             _commentModel = new CommentModel(commentData);
         }
@@ -226,7 +234,8 @@ namespace FitAndShape
 
             _selectGroupView.Initialize();
 
-            _waistHistoryView.Initialize(_fitAndShapeParameter.CsvUrl, _parameter.CustomerId, _fitAndShapeParameter.ApiKey);
+            _waistHistoryView.Initialize(_fitAndShapeParameter.CsvUrl, _parameter.CustomerId,
+                _fitAndShapeParameter.ApiKey);
 
             _postureSummaryView.SetParameter(_parameter);
             _postureDetailView.SetParameter(_parameter);
@@ -238,27 +247,18 @@ namespace FitAndShape
             _posturePageFrameView.OnClickAsWarningButton.Subscribe(value =>
             {
                 ShowPostureDetail(value.Number, value.Result);
-
             }).AddTo(_fitAndShapeView);
 
-            _postureSummaryView.OnClick.Subscribe(value =>
-            {
-                ShowPostureDetail(value.Number, value.Result);
+            _postureSummaryView.OnClick.Subscribe(value => { ShowPostureDetail(value.Number, value.Result); })
+                .AddTo(_fitAndShapeView);
 
-            }).AddTo(_fitAndShapeView);
-
-            _postureDetailView.OnPreveButtonClick.Subscribe(_ =>
-            {
-                ShowPostureSummary();
-
-            }).AddTo(_fitAndShapeView);
+            _postureDetailView.OnPreveButtonClick.Subscribe(_ => { ShowPostureSummary(); }).AddTo(_fitAndShapeView);
 
             _selectGroupView.SelectViewAngle.OnValueChanged.Subscribe(value =>
             {
                 _fitAndShapeView.DefaultAngle = (Angle)value;
 
                 ShowPostureSummary();
-
             }).AddTo(_fitAndShapeView);
 
             _selectGroupView.SelectViewColor.OnValueChanged.Subscribe(async value =>
@@ -266,7 +266,6 @@ namespace FitAndShape
                 ColorType colorType = (ColorType)value;
 
                 await LoadModel(colorType, true);
-
             }).AddTo(_fitAndShapeView);
 
             _measurementView.OnClick.Subscribe(x =>
@@ -277,7 +276,6 @@ namespace FitAndShape
                 _arrowView.ArrowPartVisible = true;
 
                 _modelView.OnReset();
-
             }).AddTo(_fitAndShapeView);
 
             _measurementView.OnHistoryClick.Subscribe(x =>
@@ -296,14 +294,10 @@ namespace FitAndShape
                         _waistHistoryView.Show(x);
                         break;
                 }
-
             }).AddTo(_fitAndShapeView);
 
-            _fitAndShapeView.OnPlayerInput.Subscribe(_ =>
-            {
-                _arrowView.ArrowPartVisible = false;
-
-            }).AddTo(_fitAndShapeView);
+            _fitAndShapeView.OnPlayerInput.Subscribe(_ => { _arrowView.ArrowPartVisible = false; })
+                .AddTo(_fitAndShapeView);
 
             _waistHistoryView.OnPrevClick.Subscribe(_ =>
             {
@@ -311,7 +305,6 @@ namespace FitAndShape
                 _arrowView.ArrowPartVisible = true;
 
                 _modelView.OnReset();
-
             }).AddTo(_fitAndShapeView);
         }
 
@@ -351,7 +344,9 @@ namespace FitAndShape
             var hieghtPosition = _arrowView.GetHieghtPosition(_avatarModel, AppConst.ObjLoadScale);
 
             Vector3 cameraPosition = _fitAndShapeParameter.CameraPosition;
-            cameraPosition.z = _fitAndShapeParameter.GetCameraPositionZ(Vector3.Distance(hieghtPosition.StartPosition, hieghtPosition.EndPosition));
+            cameraPosition.z =
+                _fitAndShapeParameter.GetCameraPositionZ(Vector3.Distance(hieghtPosition.StartPosition,
+                    hieghtPosition.EndPosition));
             //cameraPosition.z = 8f;
 
             _arrowView.SetZoomValue();
@@ -379,24 +374,29 @@ namespace FitAndShape
 
             _postureArrowView.gameObject.SetActive(true);
             _postureArrowView.Clear();
-            _postureArrowView.DrawArrow(result, _fitAndShapeView.DefaultAngle, _renderTextureUpdater.GetDisplayCamera(_fitAndShapeView.DefaultAngle));
+            _postureArrowView.DrawArrow(result, _fitAndShapeView.DefaultAngle,
+                _renderTextureUpdater.GetDisplayCamera(_fitAndShapeView.DefaultAngle));
 
             _postureDetailView.gameObject.SetActive(true);
-            _postureDetailView.SetResult(number, result, _commentModel?.GetComment(result.Point), _postureAdviceAsset.GetEntity(result.Point));
+            _postureDetailView.SetResult(number, result, _commentModel?.GetComment(result.Point),
+                _postureAdviceAsset.GetEntity(result.Point));
         }
 
         void ShowPostureSummary()
         {
             _renderTextureUpdater.ResetCamera();
 
-            Result[] results = GetResult(_postureVerifyerModel.GetAbnormalResultsByAngle(_fitAndShapeView.DefaultAngle));
+            Result[] results =
+                GetResult(_postureVerifyerModel.GetAbnormalResultsByAngle(_fitAndShapeView.DefaultAngle));
 
             _renderTextureUpdater.gameObject.SetActive(true);
             _renderTextureUpdater.SetDisplayCamera(_fitAndShapeView.DefaultAngle);
 
-            RenderTextureController renderTextureController = _renderTextureUpdater.TargetList.Where(n => n.Angle == _fitAndShapeView.DefaultAngle).First();
+            RenderTextureController renderTextureController = _renderTextureUpdater.TargetList
+                .Where(n => n.Angle == _fitAndShapeView.DefaultAngle).First();
 
-            _posturePageFrameView.CreateWarning(_fitAndShapeView.DefaultAngle, results, renderTextureController, _fitAndShapeParameter.PostureWarningOffset);
+            _posturePageFrameView.CreateWarning(_fitAndShapeView.DefaultAngle, results, renderTextureController,
+                _fitAndShapeParameter.PostureWarningOffset);
             _posturePageFrameView.ShowWarning(true);
 
             _postureSummaryView.gameObject.SetActive(true);
@@ -435,7 +435,8 @@ namespace FitAndShape
 
             string json = JsonHelper.ToJson(bodyDistortionsList);
 
-            string urlString = $"{_fitAndShapeParameter.CsvUrl}/measurements/{_parameter.MeasurementNumber.Substring(2, _parameter.MeasurementNumber.Length - 2)}/body-distortions?key={_fitAndShapeParameter.ApiKey}";
+            string urlString =
+                $"{_fitAndShapeParameter.CsvUrl}/measurements/{_parameter.MeasurementNumber.Substring(2, _parameter.MeasurementNumber.Length - 2)}/body-distortions?key={_fitAndShapeParameter.ApiKey}";
 
             ISendResultModel sendResultModel = new SendResultModel();
 

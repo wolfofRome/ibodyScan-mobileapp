@@ -87,7 +87,9 @@ namespace Amatib.ObjViewer.Presentation
                 var client = new ApiClient(_parameter.ApiHost, _parameter.MeasurementNumber, _parameter.Key, _parameter.Token);
 
                 //MemoryStream memoryStream = await client.Download("scan_data_hires.obj");
+                Debug.Log("[Start]: download scan_data.fbx start");
                 MemoryStream memoryStream = await client.Download("scan_data.fbx");
+                Debug.Log("[Start]: download scan_data.fbx end");
 
                 string[] objLines = ObjLoader.LoadAsStream(memoryStream);
 
