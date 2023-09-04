@@ -168,6 +168,7 @@ namespace FitAndShape
 
                 loginInfo.FitAndShapeServiceType = _serviceTypeGroupView.FitAndShapeServiceType;
 
+                Debug.Log($"save login response, token: {loginResponse.Data.Token}");
                 PlayerPrefsUtils.SetObject(LoginInfo.Key, loginInfo);
                 PlayerPrefsUtils.SetObject(LoginData.Key, loginResponse.Data);
 

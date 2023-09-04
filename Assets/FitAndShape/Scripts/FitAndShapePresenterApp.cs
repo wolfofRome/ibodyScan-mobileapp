@@ -693,13 +693,14 @@ namespace FitAndShape
                 Debug.Log($@"[LoadSystemAsync]: {fileName} downloaded");
 
                 // DEBUG: wolf <- what is this?
-                if(loginData.MeasurementNumber == "FS2308086671")
-                {
-                    Debug.Log("[FS2308086671]: download scan_data.fbx start");
-                    _client = new ApiClient(_fitAndShapeParameter.Host, loginData.MeasurementNumber, string.Empty, "9PNaHRfVMLZXDIrnVyOmzpZ24Y7KaFz9XgomZvhRXqk7E7s4XpyJENDtdYr1");
-                    memoryStream = await _client.Download("scan_data.fbx");
-                    Debug.Log("[FS2308086671]: download scan_data.fbx end");
-                }             
+                // if(loginData.MeasurementNumber == "FS2308086671")
+                // {
+                //     Debug.Log("[FS2308086671]: download scan_data.fbx start");
+                //     _client = new ApiClient(_fitAndShapeParameter.Host, loginData.MeasurementNumber, string.Empty, 
+                //         PlayerPrefsUtils.GetObject<LoginData>(LoginData.Key).Token);
+                //     memoryStream = await _client.Download("scan_data.fbx");
+                //     Debug.Log("[FS2308086671]: download scan_data.fbx end");
+                // }             
 
                 _objLines = ObjLoader.LoadAsStream(memoryStream);
 
