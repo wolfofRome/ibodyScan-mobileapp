@@ -85,6 +85,7 @@ namespace FitAndShape
 
             _loadingView.Visible = false;
 
+            //TODO: リフレッシュトークンは存在する？
             LoginData loginData = PlayerPrefsUtils.GetObject<LoginData>(LoginData.Key);
             LoginInfo loginInfo = PlayerPrefsUtils.GetObject<LoginInfo>(LoginInfo.Key);
 

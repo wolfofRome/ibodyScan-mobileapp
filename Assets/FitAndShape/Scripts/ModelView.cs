@@ -2,12 +2,14 @@
 
 namespace FitAndShape
 {
+    // 3D人体のメッシュをプロットするためのViewクラス
     public sealed class ModelView : MonoBehaviour
     {
         [SerializeField] GameObject _monochromeModel;
         [SerializeField] GameObject _pointCloudModel;
         [SerializeField] MeshFilter _monochromeMeshFilter;
         [SerializeField] MeshFilter _pointCloudMeshFilter;
+        [SerializeField] private Skeleton _skeleton;
 
         public Vector3 Position => transform.position;
         public bool IsLoadMonochrome { get; private set; } = false;
@@ -24,12 +26,20 @@ namespace FitAndShape
             transform.position = value;
         }
 
+        /// <summary>
+        /// 非相同モデルのMeshをSet
+        /// </summary>
+        /// <param name="mesh"></param>
         public void SetMonochromeMesh(Mesh mesh)
         {
             IsLoadMonochrome = true;
             _monochromeMeshFilter.mesh = mesh;
         }
 
+        /// <summary>
+        /// 点群モデルのMeshをSet
+        /// </summary>
+        /// <param name="mesh"></param>
         public void SetPointCloudMesh(Mesh mesh)
         {
             IsLoadPointCloud = true;
@@ -49,6 +59,20 @@ namespace FitAndShape
 
             IsLoadPointCloud = false;
             _pointCloudMeshFilter.mesh = null;
+        }
+        
+        /// <summary>
+        ///
+        /// 透明度スライダーの値の変化に対するリスナー
+        /// </summary>
+        /// <param name="value"></param>
+        public void OnUpdateAlphaSlider(float alpha)
+        {
+            Color newColor = _monochromeModel.GetComponent<Renderer>().material.color;
+            newColor.a = 1 - alpha;
+            _monochromeModel.GetComponent<Renderer>().material.color = newColor;
+            _pointCloudModel.GetComponent<Renderer>().material.color = newColor; // TODO: そもそもこれ効いてないよね
+            _skeleton.SetAlpha(alpha);
         }
     }
 }
