@@ -9,21 +9,21 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.TestTools;
 using FitAndShape;
 using System;
+using System.Linq;
 using System.Threading;
 
 public class FitAndShapeTest
 {
-    [UnityTest]
-    public IEnumerator LoginTest() => UniTask.ToCoroutine(async () =>
-    {
-        var cancellationTokenSource = new CancellationTokenSource();
-
-        ILoginModel loginModel = new LoginModel("");
-
-        await loginModel.Login("09012345678", "password", cancellationTokenSource.Token);
-
-
-    });
+    // ロジック変更によりコメントアウト
+    // [UnityTest]
+    // public IEnumerator LoginTest() => UniTask.ToCoroutine(async () =>
+    // {
+    //     // var cancellationTokenSource = new CancellationTokenSource();
+    //
+    //     // ILoginModel loginModel = new LoginModel("");
+    //
+    //     // await loginModel.Login("09012345678", "password", cancellationTokenSource.Token);
+    // });
 
     [UnityTest]
     public IEnumerator CsvLoadTest() => UniTask.ToCoroutine(async () =>
@@ -40,13 +40,13 @@ public class FitAndShapeTest
         Measurement measurement = new Measurement(csv.GetRowValues(0));
 
         Debug.Log(measurement.ToString());
-
     });
 
     [UnityTest]
     public IEnumerator CommentTest() => UniTask.ToCoroutine(async () =>
     {
-        string url = "https://api.fit-shape.jp/api/measurements/2201011111/body-distortion-comments?key=0744CE0F-9F0F-43DD-A3F9-6C3F4EF39720";
+        string url =
+            "https://api.fit-shape.jp/api/measurements/2201011111/body-distortion-comments?key=0744CE0F-9F0F-43DD-A3F9-6C3F4EF39720";
 
         var cancellationTokenSource = new CancellationTokenSource();
 
@@ -69,7 +69,8 @@ public class FitAndShapeTest
     {
         try
         {
-            BodyDistortionsEntity[] bodyDistortionsEntities= new BodyDistortionsEntity[] { new BodyDistortionsEntity(PostureVerifyPoint.BodyInclinationRatio, PostureCondition.FlatBack) };
+            BodyDistortionsEntity[] bodyDistortionsEntities = new BodyDistortionsEntity[]
+                { new BodyDistortionsEntity(PostureVerifyPoint.BodyInclinationRatio, PostureCondition.FlatBack) };
 
             string json = JsonHelper.ToJson(bodyDistortionsEntities);
 
@@ -86,7 +87,8 @@ public class FitAndShapeTest
     {
         try
         {
-            BodyDistortionsEntity[] bodyDistortionsEntities = new BodyDistortionsEntity[] { new BodyDistortionsEntity(PostureVerifyPoint.BodyInclinationRatio, PostureCondition.FlatBack) };
+            BodyDistortionsEntity[] bodyDistortionsEntities = new BodyDistortionsEntity[]
+                { new BodyDistortionsEntity(PostureVerifyPoint.BodyInclinationRatio, PostureCondition.FlatBack) };
 
             string json = JsonHelper.ToJson(bodyDistortionsEntities);
 
@@ -95,7 +97,8 @@ public class FitAndShapeTest
             //https://api.fit-shape.jp/api/measurements/<measurementNumber>/body-distortions
             //string url = "https://api.fit-shape.jp/api/measurements/2201011111/body-distortions?key=0744CE0F-9F0F-43DD-A3F9-6C3F4EF39720";
             //string url = "https://api.fit-shape.jp/api/measurements/2201011111/body-distortions?key=0744CE0F-9F0F-43DD-A3F9-6C3F4EF39720";
-            string url = "https://api.fit-shape.jp/api/measurements/2201011111/body-distortions?key=0744CE0F-9F0F-43DD-A3F9-6C3F4EF39720";
+            string url =
+                "https://api.fit-shape.jp/api/measurements/2201011111/body-distortions?key=0744CE0F-9F0F-43DD-A3F9-6C3F4EF39720";
 
             var cancellationTokenSource = new CancellationTokenSource();
 
@@ -109,4 +112,19 @@ public class FitAndShapeTest
         }
     });
 
+    [UnityTest]
+    public void FilterBoneNames()
+    {
+        try
+        {
+            string[] avatarBoneNames = Enum.GetNames(typeof(AvatarBones));
+            int length = avatarBoneNames.Where(
+                name => !name.Contains("Finger")).ToArray().Length;
+            Debug.Log($"length: {length}");
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError(ex.Message);
+        }
+    }
 }

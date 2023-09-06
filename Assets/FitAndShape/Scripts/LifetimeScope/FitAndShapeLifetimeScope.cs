@@ -10,7 +10,6 @@ namespace FitAndShape
         [SerializeField] FitAndShapeView _fitAndShapeView;
         [SerializeField] ArrowView _arrowView;
         [SerializeField] ModelView _modelView;
-        [SerializeField] AvatarView _avatarView;
         [SerializeField] RenderTextureUpdater _renderTextureUpdater;
         [SerializeField] PosturePageFrameView _posturePageFrameView;
         [SerializeField] PostureDetailPageFrame _postureDetailPageFrame;
@@ -23,6 +22,7 @@ namespace FitAndShape
         [SerializeField] ModelViewParameter _modelViewParameter;
         [SerializeField] LoadingView _loadingView;
         [SerializeField] HeaderView _headerView;
+        [SerializeField] MorphView _morphView;
         [SerializeField] TabBarView _tabBarView;
         [SerializeField] OptionView _optionView;
         [SerializeField] FitAndShapeInfoView _fitAndShapeInfoView;
@@ -38,7 +38,6 @@ namespace FitAndShape
             builder.RegisterComponent(_fitAndShapeView);
             builder.RegisterComponent(_arrowView);
             builder.RegisterComponent(_modelView);
-            builder.RegisterComponent(_avatarView);
             builder.RegisterComponent(_renderTextureUpdater);
             builder.RegisterComponent(_posturePageFrameView);
             builder.RegisterComponent(_postureDetailPageFrame);
@@ -50,6 +49,7 @@ namespace FitAndShape
             builder.RegisterComponent(_postureAdviceAsset);
             builder.RegisterComponent(_modelViewParameter);
             builder.RegisterComponent(_loadingView);
+            builder.RegisterComponent(_morphView);
 
 #if UNITY_WEBGL_API
             builder.RegisterEntryPoint<FitAndShapePresenter>(Lifetime.Singleton);

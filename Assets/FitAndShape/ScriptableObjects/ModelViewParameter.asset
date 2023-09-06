@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef173328d2803124bb5c5e8afd20cc29, type: 3}
+  m_Name: ModelViewParameter
+  m_EditorClassIdentifier: 
+  _zoomTime: 0.25
+  _pinchOutInRate: 0.1
+  _previewZoomValue: 30
+  _frontPosition: {x: 0, y: -2, z: 0}
+  _frontZoomValue: 20
+  _frontZoomTime: 1
+  _zoomValue: 10
+  _upperRatio: 44
+  _lowerRatio: 22
+  _upperHeight: 2000
+  _lowerHeight: 1500
+  _moveCoefficient: 0.004
+  _cameraUpperRatio: 6.9
+  _cameraLowerRatio: 6.6
+  _objLoadScale: 0.005
+  _testUrl: https://webgl.fit-shape.jp?token=toU55Ymue6JvBDo7SX0mcWMNVvw8UmWvuP3fbpphQqJEKdQNAVMP381o4Stn&amp;customer_id=1&amp;measurement_number=FS2201100052&amp;preview=off&amp;sp=off&amp;pointcloud=on&amp;gender=male&amp;place=mollitia&amp;created_at=2023-03-23T00:00:00+09:00&amp;

@@ -1,6 +1,7 @@
 ﻿using Codice.CM.Client.Differences.Merge;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
@@ -21,6 +22,7 @@ namespace FitAndShape
     public sealed class AvatarModel : IAvatarModel
     {
         readonly Vector3 _objOffset;
+        readonly Transform _skeletonTransform;
         readonly Transform[] _bones;
         readonly bool _isMale;
         readonly float _bodyScale;
@@ -32,9 +34,12 @@ namespace FitAndShape
 
         public Vector3[] ObjPoints { get; }
 
-        public AvatarModel(IReadOnlyList<string> objLines, Transform[] bones, Vector3 objOffset, bool isMale, float bodyScale)
+        public AvatarModel(IReadOnlyList<string> objLines, Transform skeletonTransform, Transform[] bones,
+            Vector3 objOffset, bool isMale, float bodyScale)
         {
-            int length = Enum.GetNames(typeof(AvatarBones)).Length;
+            // 指を含まないモデルの特徴点を管理する
+            int length = Enum.GetNames(typeof(AvatarBones)).Where(
+                name => !name.Contains("Finger")).ToArray().Length;
 
             _objLines = objLines;
 
@@ -48,6 +53,8 @@ namespace FitAndShape
             _objSrcPoints = LoadSrcPoints(length);
 
             ObjPoints = new Vector3[length];
+
+            _skeletonTransform = skeletonTransform;
 
             _bones = bones;
 
@@ -64,7 +71,9 @@ namespace FitAndShape
 
         public float GetScale()
         {
-            float scale = ((ObjPoints[(int)AvatarBones.Neck1].y * _bodyScale) - _objOffset.y) / _bones[(int)AvatarBones.Neck1].position.y;
+            float scale = ((ObjPoints[(int)AvatarBones.Neck1].y * _bodyScale) - _objOffset.y) /
+                          _bones[(int)AvatarBones.Neck1].position.y;
+            Debug.Log($"[GetScale]: scale={scale}");
             return scale;
         }
 
@@ -109,45 +118,45 @@ namespace FitAndShape
                     case AvatarBones.RightEarlobe:
                     case AvatarBones.LeftAcromion:
                     case AvatarBones.RightAcromion:
-                        {
-                            Vector3 v = ParseVertexData((int)row[(int)RowData.Up]);
-                            ObjPoints[i] = v;
-                        }
+                    {
+                        Vector3 v = ParseVertexData((int)row[(int)RowData.Up]);
+                        ObjPoints[i] = v;
+                    }
                         break;
                     case AvatarBones.Neck1:
                         ObjPoints[i] = CalcSpineLineVertex(row, _objLines, 0.5f, 0.5f);
                         break;
                     case AvatarBones.LeftShoulder:
                     case AvatarBones.RightShoulder:
-                        {
-                            float sumZ = 0.0f;
-                            Vector3 v = ParseVertexData((int)row[(int)RowData.Forward]);
-                            float forwardX = v.x;
-                            float forwardY = v.y;
-                            sumZ += v.z;
-                            v = ParseVertexData((int)row[(int)RowData.Up]);
-                            sumZ += v.z;
-                            ObjPoints[i] = new Vector3(forwardX, forwardY, sumZ / 2.0f);
-                        }
+                    {
+                        float sumZ = 0.0f;
+                        Vector3 v = ParseVertexData((int)row[(int)RowData.Forward]);
+                        float forwardX = v.x;
+                        float forwardY = v.y;
+                        sumZ += v.z;
+                        v = ParseVertexData((int)row[(int)RowData.Up]);
+                        sumZ += v.z;
+                        ObjPoints[i] = new Vector3(forwardX, forwardY, sumZ / 2.0f);
+                    }
                         break;
                     case AvatarBones.LeftArm:
                     case AvatarBones.LeftUpScale1:
                     case AvatarBones.RightArm:
                     case AvatarBones.RightUpScale1:
-                        {
-                            float sumX = 0.0f;
-                            float sumY = 0.0f;
-                            float sumZ = 0.0f;
-                            Vector3 v = ParseVertexData((int)row[(int)RowData.Forward]);
-                            sumX += v.x;
-                            sumY += v.y;
-                            sumZ += v.z;
-                            v = ParseVertexData((int)row[(int)RowData.Back]);
-                            sumX += v.x;
-                            sumY += v.y;
-                            sumZ += v.z;
-                            ObjPoints[i] = new Vector3(sumX / 2.0f, sumY / 2.0f, sumZ / 2.0f);
-                        }
+                    {
+                        float sumX = 0.0f;
+                        float sumY = 0.0f;
+                        float sumZ = 0.0f;
+                        Vector3 v = ParseVertexData((int)row[(int)RowData.Forward]);
+                        sumX += v.x;
+                        sumY += v.y;
+                        sumZ += v.z;
+                        v = ParseVertexData((int)row[(int)RowData.Back]);
+                        sumX += v.x;
+                        sumY += v.y;
+                        sumZ += v.z;
+                        ObjPoints[i] = new Vector3(sumX / 2.0f, sumY / 2.0f, sumZ / 2.0f);
+                    }
                         break;
                     case AvatarBones.LeftForeArm:
                     case AvatarBones.RightForeArm:
@@ -155,10 +164,10 @@ namespace FitAndShape
                         break;
                     case AvatarBones.LeftHand2:
                     case AvatarBones.RightHand2:
-                        {
-                            Vector3 v = ParseVertexData((int)row[(int)RowData.Forward]);
-                            ObjPoints[i] = v;
-                        }
+                    {
+                        Vector3 v = ParseVertexData((int)row[(int)RowData.Forward]);
+                        ObjPoints[i] = v;
+                    }
                         break;
                     case AvatarBones.Spine2:
                         ObjPoints[i] = CalcSpineLineVertex(row, _objLines, 0.5f, 0.6f);
@@ -171,37 +180,37 @@ namespace FitAndShape
                         break;
                     case AvatarBones.LeftUpLeg:
                     case AvatarBones.LeftDownScale1:
-                        {
-                            Vector3 v = ParseVertexData((int)row[(int)RowData.Forward]);
-                            float forwardX = v.x;
-                            float forwardY = v.y;
-                            v = ParseVertexData((int)row[(int)RowData.Left]);
-                            float leftZ = v.z;
-                            ObjPoints[i] = new Vector3(forwardX, forwardY, leftZ);
-                        }
+                    {
+                        Vector3 v = ParseVertexData((int)row[(int)RowData.Forward]);
+                        float forwardX = v.x;
+                        float forwardY = v.y;
+                        v = ParseVertexData((int)row[(int)RowData.Left]);
+                        float leftZ = v.z;
+                        ObjPoints[i] = new Vector3(forwardX, forwardY, leftZ);
+                    }
                         break;
                     case AvatarBones.RightUpLeg:
                     case AvatarBones.RightDownScale1:
-                        {
-                            Vector3 v = ParseVertexData((int)row[(int)RowData.Forward]);
-                            float forwardX = v.x;
-                            float forwardY = v.y;
-                            v = ParseVertexData((int)row[(int)RowData.Right]);
-                            float rightZ = v.z;
-                            ObjPoints[i] = new Vector3(forwardX, forwardY, rightZ);
-                        }
+                    {
+                        Vector3 v = ParseVertexData((int)row[(int)RowData.Forward]);
+                        float forwardX = v.x;
+                        float forwardY = v.y;
+                        v = ParseVertexData((int)row[(int)RowData.Right]);
+                        float rightZ = v.z;
+                        ObjPoints[i] = new Vector3(forwardX, forwardY, rightZ);
+                    }
                         break;
                     case AvatarBones.LeftLeg:
                     case AvatarBones.RightLeg:
-                        {
-                            Vector3 v = ParseVertexData((int)row[(int)RowData.Forward]);
-                            float forwardX = v.x;
-                            float forwardY = v.y;
-                            float forwardZ = v.z;
-                            v = ParseVertexData((int)row[(int)RowData.Back]);
-                            float backZ = v.z;
-                            ObjPoints[i] = new Vector3(forwardX, forwardY, Mathf.Lerp(forwardZ, backZ, 0.4f));
-                        }
+                    {
+                        Vector3 v = ParseVertexData((int)row[(int)RowData.Forward]);
+                        float forwardX = v.x;
+                        float forwardY = v.y;
+                        float forwardZ = v.z;
+                        v = ParseVertexData((int)row[(int)RowData.Back]);
+                        float backZ = v.z;
+                        ObjPoints[i] = new Vector3(forwardX, forwardY, Mathf.Lerp(forwardZ, backZ, 0.4f));
+                    }
                         break;
                     case AvatarBones.LeftFoot:
                     case AvatarBones.RightFoot:
@@ -209,14 +218,14 @@ namespace FitAndShape
                         break;
                     case AvatarBones.LeftToe:
                     case AvatarBones.RightToe:
-                        {
-                            Vector3 v = ParseVertexData((int)row[(int)RowData.Up]);
-                            float upX = v.x;
-                            float upY = v.y;
-                            v = ParseVertexData((int)row[(int)RowData.Forward]);
-                            float forwardZ = v.z;
-                            ObjPoints[i] = new Vector3(upX, upY, forwardZ);
-                        }
+                    {
+                        Vector3 v = ParseVertexData((int)row[(int)RowData.Up]);
+                        float upX = v.x;
+                        float upY = v.y;
+                        v = ParseVertexData((int)row[(int)RowData.Forward]);
+                        float forwardZ = v.z;
+                        ObjPoints[i] = new Vector3(upX, upY, forwardZ);
+                    }
                         break;
                     case AvatarBones.LeftDownScale2:
                     case AvatarBones.RightDownScale2:
@@ -225,71 +234,71 @@ namespace FitAndShape
                     case AvatarBones.LeftHand:
                     case AvatarBones.RightHand:
                     case AvatarBones.Hips:
+                    {
+                        int counter = 0;
+                        float sumX = 0.0f;
+                        float sumY = 0.0f;
+                        float sumZ = 0.0f;
+
+                        if (row[(int)RowData.Left] != null)
                         {
-                            int counter = 0;
-                            float sumX = 0.0f;
-                            float sumY = 0.0f;
-                            float sumZ = 0.0f;
-
-                            if (row[(int)RowData.Left] != null)
-                            {
-                                Vector3 v = ParseVertexData((int)row[(int)RowData.Left]);
-                                sumX += v.x;
-                                sumY += v.y;
-                                sumZ += v.z;
-                                counter++;
-                            }
-
-                            if (row[(int)RowData.Right] != null)
-                            {
-                                Vector3 v = ParseVertexData((int)row[(int)RowData.Right]);
-                                sumX += v.x;
-                                sumY += v.y;
-                                sumZ += v.z;
-                                counter++;
-                            }
-
-                            if (row[(int)RowData.Forward] != null)
-                            {
-                                Vector3 v = ParseVertexData((int)row[(int)RowData.Forward]);
-                                sumX += v.x;
-                                sumY += v.y;
-                                sumZ += v.z;
-                                counter++;
-                            }
-
-                            if (row[(int)RowData.Back] != null)
-                            {
-                                Vector3 v = ParseVertexData((int)row[(int)RowData.Back]);
-                                sumX += v.x;
-                                sumY += v.y;
-                                sumZ += v.z;
-                                counter++;
-                            }
-
-                            if (row[(int)RowData.Up] != null)
-                            {
-                                Vector3 v = ParseVertexData((int)row[(int)RowData.Up]);
-                                sumX += v.x;
-                                sumY += v.y;
-                                sumZ += v.z;
-                                counter++;
-                            }
-
-                            if (row[(int)RowData.Down] != null)
-                            {
-                                Vector3 v = ParseVertexData((int)row[(int)RowData.Down]);
-                                sumX += v.x;
-                                sumY += v.y;
-                                sumZ += v.z;
-                                counter++;
-                            }
-
-                            if (counter > 0)
-                            {
-                                ObjPoints[i] = new Vector3(sumX / counter, sumY / counter, sumZ / counter);
-                            }
+                            Vector3 v = ParseVertexData((int)row[(int)RowData.Left]);
+                            sumX += v.x;
+                            sumY += v.y;
+                            sumZ += v.z;
+                            counter++;
                         }
+
+                        if (row[(int)RowData.Right] != null)
+                        {
+                            Vector3 v = ParseVertexData((int)row[(int)RowData.Right]);
+                            sumX += v.x;
+                            sumY += v.y;
+                            sumZ += v.z;
+                            counter++;
+                        }
+
+                        if (row[(int)RowData.Forward] != null)
+                        {
+                            Vector3 v = ParseVertexData((int)row[(int)RowData.Forward]);
+                            sumX += v.x;
+                            sumY += v.y;
+                            sumZ += v.z;
+                            counter++;
+                        }
+
+                        if (row[(int)RowData.Back] != null)
+                        {
+                            Vector3 v = ParseVertexData((int)row[(int)RowData.Back]);
+                            sumX += v.x;
+                            sumY += v.y;
+                            sumZ += v.z;
+                            counter++;
+                        }
+
+                        if (row[(int)RowData.Up] != null)
+                        {
+                            Vector3 v = ParseVertexData((int)row[(int)RowData.Up]);
+                            sumX += v.x;
+                            sumY += v.y;
+                            sumZ += v.z;
+                            counter++;
+                        }
+
+                        if (row[(int)RowData.Down] != null)
+                        {
+                            Vector3 v = ParseVertexData((int)row[(int)RowData.Down]);
+                            sumX += v.x;
+                            sumY += v.y;
+                            sumZ += v.z;
+                            counter++;
+                        }
+
+                        if (counter > 0)
+                        {
+                            ObjPoints[i] = new Vector3(sumX / counter, sumY / counter, sumZ / counter);
+                        }
+                    }
                         break;
                     case AvatarBones.Root:
                         break;
@@ -299,6 +308,10 @@ namespace FitAndShape
 
         public void UpdateBones()
         {
+            // Update Bone Parent Transform
+            float scale = GetScale();
+            _skeletonTransform.localScale = new Vector3(scale, scale, scale);
+
             {
                 Vector3 ribRight = ParseVertexData(436);
                 Vector3 ribLeft = ParseVertexData(1398);
@@ -312,13 +325,16 @@ namespace FitAndShape
                 float ribZScale = ribZDistance / (_isMale ? 210.0f : 180.0f);
 
                 int index = (int)AvatarBones.SpineWaist;
-                _bones[index].localScale = new Vector3(_bones[index].localScale.x * ribXScale, _bones[index].localScale.y, _bones[index].localScale.z * ribZScale);
+                _bones[index].localScale = new Vector3(_bones[index].localScale.x * ribXScale,
+                    _bones[index].localScale.y, _bones[index].localScale.z * ribZScale);
 
                 index = (int)AvatarBones.Neck2;
-                _bones[index].localScale = new Vector3(_bones[index].localScale.x / ribXScale, _bones[index].localScale.y, _bones[index].localScale.z / ribZScale);
+                _bones[index].localScale = new Vector3(_bones[index].localScale.x / ribXScale,
+                    _bones[index].localScale.y, _bones[index].localScale.z / ribZScale);
             }
 
-            float headDistanceBefore = (_bones[(int)AvatarBones.Head].position - _bones[(int)AvatarBones.Neck2].position).magnitude;
+            float headDistanceBefore =
+                (_bones[(int)AvatarBones.Head].position - _bones[(int)AvatarBones.Neck2].position).magnitude;
 
             Quaternion inverseQ = Quaternion.identity;
             Quaternion hipsInverseQ = Quaternion.identity;
@@ -416,7 +432,8 @@ namespace FitAndShape
                     Vector3 leftEarlobePos = ObjPoints[(int)AvatarBones.LeftEarlobe] * _bodyScale;
                     Vector3 rightEarlobePos = ObjPoints[(int)AvatarBones.RightEarlobe] * _bodyScale;
 
-                    float radian = -Mathf.Atan2(rightEarlobePos.z - leftEarlobePos.z, rightEarlobePos.x - leftEarlobePos.x);
+                    float radian = -Mathf.Atan2(rightEarlobePos.z - leftEarlobePos.z,
+                        rightEarlobePos.x - leftEarlobePos.x);
                     qY = Quaternion.AngleAxis(radian * Mathf.Rad2Deg, Vector3.up);
                 }
 
@@ -610,14 +627,21 @@ namespace FitAndShape
             }
 
             {
-                float headDistanceAfter = (_bones[(int)AvatarBones.Head].position - _bones[(int)AvatarBones.Neck2].position).magnitude;
+                float headDistanceAfter =
+                    (_bones[(int)AvatarBones.Head].position - _bones[(int)AvatarBones.Neck2].position).magnitude;
 
                 if ((headDistanceAfter * 0.9f) < headDistanceBefore)
                 {
                     float coefficient = (headDistanceAfter / headDistanceBefore) * 0.9f;
                     int index = (int)AvatarBones.Head;
-                    _bones[index].localScale = new Vector3(_bones[index].localScale.x * coefficient, _bones[index].localScale.y * coefficient, _bones[index].localScale.z * coefficient);
+                    _bones[index].localScale = new Vector3(_bones[index].localScale.x * coefficient,
+                        _bones[index].localScale.y * coefficient, _bones[index].localScale.z * coefficient);
                 }
+            }
+
+            // 手の開き方の修正をするならここ
+            {
+                // _bones[(int)AvatarBones.LeftFinger1].Rotate(new Vector3(45, 0, 0));
             }
         }
 
@@ -642,7 +666,8 @@ namespace FitAndShape
         {
             string rowString = _objLines[rowNumber + _rowsOffset];
             string[] elements = rowString.Split(' ');
-            return new Vector3(-float.Parse(elements[1]), float.Parse(elements[2]), float.Parse(elements[3])) + (_objOffset / _bodyScale);
+            return new Vector3(-float.Parse(elements[1]), float.Parse(elements[2]), float.Parse(elements[3])) +
+                   (_objOffset / _bodyScale);
         }
 
         Dictionary<RowData, Vector3>[] LoadSrcPoints(int length)
@@ -725,50 +750,50 @@ namespace FitAndShape
         {
             return new Dictionary<AvatarBones, int?[]>
             {
-                {AvatarBones.Hips, new int?[] {null, null, 6602, 26148, null, null } },
-                {AvatarBones.Jushin, null },
-                {AvatarBones.LeftUpLeg, new int?[] { 4988, null, 22954, null, null, null } },
-                {AvatarBones.LeftDownScale1, new int?[] { 4988, null, 22954, 4505, null, null } },
-                {AvatarBones.LeftDownScale2, new int?[] { null, null, 22798, null, null, null } },
-                {AvatarBones.LeftGreaterTrochanter, null },
-                {AvatarBones.LeftLeg, new int?[] { null, null, 15881, 23121, null, null } },
-                {AvatarBones.LeftPatella, null },
-                {AvatarBones.LeftFoot, new int?[] { 5379, 5377, 16740, 22864, null, null } },
-                {AvatarBones.LeftAnkle, null },
-                {AvatarBones.LeftToe, new int?[] { null, null, 18199, null, 18204, null } },
-                {AvatarBones.RightUpLeg, new int?[] { null, 10729, 14546, null, null, null } },
-                {AvatarBones.RightDownScale1, new int?[] { null, 10729, 14546, null, null, null } },
-                {AvatarBones.RightDownScale2, new int?[] { null, null, 14386, null, null, null } },
-                {AvatarBones.RightGreaterTrochanter, null },
-                {AvatarBones.RightLeg, new int?[] { null, null, 7470, 14712, null, null } },
-                {AvatarBones.RightPatella, null },
-                {AvatarBones.RightFoot, new int?[] { 3250, 3252, 8342, 14457, null, null } },
-                {AvatarBones.RightAnkle, null },
-                {AvatarBones.RightToe, new int?[] { null, null, 9789, null, 9791, null } },
-                {AvatarBones.SpineWaist, new int?[] { null, null, 26259, 11860, null, null } },
-                {AvatarBones.Spine1, new int?[] { null, null, 26141, 26358, null, null } },
-                {AvatarBones.Spine2, new int?[] { null, null, 3202, 8010, null, null } },
-                {AvatarBones.Neck1, new int?[] { null, null, 3570, 924, null, null } },
-                {AvatarBones.Neck2, new int?[] { 19717, 11300, null, null, null, null } },
-                {AvatarBones.Neck3, new int?[] { 4692, 2560, null, null, null, null } },
-                {AvatarBones.LeftEarlobe, new int?[] { null, null, null, null, 24044, null } },
-                {AvatarBones.RightEarlobe, new int?[] { null, null, null, null, 15645, null } },
-                {AvatarBones.Head, new int?[] { null, null, null, null, 3225, null } },
-                {AvatarBones.LeftShoulder, new int?[] { null, null, 5124, null, 1058, null } },
-                {AvatarBones.LeftAcromion, new int?[] { null, null, null, null, 19645, null } },
-                {AvatarBones.LeftArm, new int?[] { null, null, 16419, 5575, null, null } },
-                {AvatarBones.LeftUpScale1, new int?[] {  null, null, 16419, 5575, null, null } },
-                {AvatarBones.LeftForeArm, new int?[] { 25805, 1662, 26016, 25443, null, null } },
-                {AvatarBones.LeftHand, new int?[] { null, null, 6244, 6213, null, null } },
-                {AvatarBones.LeftHand2, new int?[] { null, null, 24296, null, null, null } },
-                {AvatarBones.RightShoulder, new int?[] { null, null, 2988, null, 776, null } },
-                {AvatarBones.RightAcromion, new int?[] { null, null, null, null, 11232, null } },
-                {AvatarBones.RightArm, new int?[] { null, null, 8017, 3448, null, null } },
-                {AvatarBones.RightUpScale1, new int?[] { null, null, 8017, 3448, null, null } },
-                {AvatarBones.RightForeArm, new int?[] { 7084, 28157, 28609, 7028, null, null } },
-                {AvatarBones.RightHand, new int?[] { null, null, 6853, 27220, null, null } },
-                {AvatarBones.RightHand2, new int?[] { null, null, 26898, null, null, null } },
-                {AvatarBones.Root, null }
+                { AvatarBones.Hips, new int?[] { null, null, 6602, 26148, null, null } },
+                { AvatarBones.Jushin, null },
+                { AvatarBones.LeftUpLeg, new int?[] { 4988, null, 22954, null, null, null } },
+                { AvatarBones.LeftDownScale1, new int?[] { 4988, null, 22954, 4505, null, null } },
+                { AvatarBones.LeftDownScale2, new int?[] { null, null, 22798, null, null, null } },
+                { AvatarBones.LeftGreaterTrochanter, null },
+                { AvatarBones.LeftLeg, new int?[] { null, null, 15881, 23121, null, null } },
+                { AvatarBones.LeftPatella, null },
+                { AvatarBones.LeftFoot, new int?[] { 5379, 5377, 16740, 22864, null, null } },
+                { AvatarBones.LeftAnkle, null },
+                { AvatarBones.LeftToe, new int?[] { null, null, 18199, null, 18204, null } },
+                { AvatarBones.RightUpLeg, new int?[] { null, 10729, 14546, null, null, null } },
+                { AvatarBones.RightDownScale1, new int?[] { null, 10729, 14546, null, null, null } },
+                { AvatarBones.RightDownScale2, new int?[] { null, null, 14386, null, null, null } },
+                { AvatarBones.RightGreaterTrochanter, null },
+                { AvatarBones.RightLeg, new int?[] { null, null, 7470, 14712, null, null } },
+                { AvatarBones.RightPatella, null },
+                { AvatarBones.RightFoot, new int?[] { 3250, 3252, 8342, 14457, null, null } },
+                { AvatarBones.RightAnkle, null },
+                { AvatarBones.RightToe, new int?[] { null, null, 9789, null, 9791, null } },
+                { AvatarBones.SpineWaist, new int?[] { null, null, 26259, 11860, null, null } },
+                { AvatarBones.Spine1, new int?[] { null, null, 26141, 26358, null, null } },
+                { AvatarBones.Spine2, new int?[] { null, null, 3202, 8010, null, null } },
+                { AvatarBones.Neck1, new int?[] { null, null, 3570, 924, null, null } },
+                { AvatarBones.Neck2, new int?[] { 19717, 11300, null, null, null, null } },
+                { AvatarBones.Neck3, new int?[] { 4692, 2560, null, null, null, null } },
+                { AvatarBones.LeftEarlobe, new int?[] { null, null, null, null, 24044, null } },
+                { AvatarBones.RightEarlobe, new int?[] { null, null, null, null, 15645, null } },
+                { AvatarBones.Head, new int?[] { null, null, null, null, 3225, null } },
+                { AvatarBones.LeftShoulder, new int?[] { null, null, 5124, null, 1058, null } },
+                { AvatarBones.LeftAcromion, new int?[] { null, null, null, null, 19645, null } },
+                { AvatarBones.LeftArm, new int?[] { null, null, 16419, 5575, null, null } },
+                { AvatarBones.LeftUpScale1, new int?[] { null, null, 16419, 5575, null, null } },
+                { AvatarBones.LeftForeArm, new int?[] { 25805, 1662, 26016, 25443, null, null } },
+                { AvatarBones.LeftHand, new int?[] { null, null, 6244, 6213, null, null } },
+                { AvatarBones.LeftHand2, new int?[] { null, null, 24296, null, null, null } },
+                { AvatarBones.RightShoulder, new int?[] { null, null, 2988, null, 776, null } },
+                { AvatarBones.RightAcromion, new int?[] { null, null, null, null, 11232, null } },
+                { AvatarBones.RightArm, new int?[] { null, null, 8017, 3448, null, null } },
+                { AvatarBones.RightUpScale1, new int?[] { null, null, 8017, 3448, null, null } },
+                { AvatarBones.RightForeArm, new int?[] { 7084, 28157, 28609, 7028, null, null } },
+                { AvatarBones.RightHand, new int?[] { null, null, 6853, 27220, null, null } },
+                { AvatarBones.RightHand2, new int?[] { null, null, 26898, null, null, null } },
+                { AvatarBones.Root, null }
             };
         }
 
@@ -776,50 +801,50 @@ namespace FitAndShape
         {
             return new Dictionary<AvatarBones, int?[]>
             {
-                {AvatarBones.Hips, new int?[] {null, null, 6602, 26148, null, null } },
-                {AvatarBones.Jushin, null },
-                {AvatarBones.LeftUpLeg, new int?[] { 4988, null, 22954, null, null, null } },
-                {AvatarBones.LeftDownScale1, new int?[] { 4988, null, 22954, 4505, null, null } },
-                {AvatarBones.LeftDownScale2, new int?[] { null, null, 22798, null, null, null } },
-                {AvatarBones.LeftGreaterTrochanter, null },
-                {AvatarBones.LeftLeg, new int?[] { null, null, 15881, 23121, null, null } },
-                {AvatarBones.LeftPatella, null },
-                {AvatarBones.LeftFoot, new int?[] { 5379, 5377, 16740, 22864, null, null } },
-                {AvatarBones.LeftAnkle, null },
-                {AvatarBones.LeftToe, new int?[] { null, null, 18199, null, 18204, null } },
-                {AvatarBones.RightUpLeg, new int?[] { null, 10729, 14546, null, null, null } },
-                {AvatarBones.RightDownScale1, new int?[] { null, 10729, 14546, null, null, null } },
-                {AvatarBones.RightDownScale2, new int?[] { null, null, 14386, null, null, null } },
-                {AvatarBones.RightGreaterTrochanter, null },
-                {AvatarBones.RightLeg, new int?[] { null, null, 7470, 14712, null, null } },
-                {AvatarBones.RightPatella, null },
-                {AvatarBones.RightFoot, new int?[] { 3250, 3252, 8342, 14457, null, null } },
-                {AvatarBones.RightAnkle, null },
-                {AvatarBones.RightToe, new int?[] { null, null, 9789, null, 9791, null } },
-                {AvatarBones.SpineWaist, new int?[] { null, null, 26259, 11860, null, null } },
-                {AvatarBones.Spine1, new int?[] { null, null, 26141, 26358, null, null } },
-                {AvatarBones.Spine2, new int?[] { null, null, 3202, 8010, null, null } },
-                {AvatarBones.Neck1, new int?[] { null, null, 3570, 924, null, null } },
-                {AvatarBones.Neck2, new int?[] { 19717, 11300, null, null, null, null } },
-                {AvatarBones.Neck3, new int?[] { 4692, 2560, null, null, null, null } },
-                {AvatarBones.LeftEarlobe, new int?[] { null, null, null, null, 24044, null } },
-                {AvatarBones.RightEarlobe, new int?[] { null, null, null, null, 15645, null } },
-                {AvatarBones.Head, new int?[] { null, null, null, null, 3225, null } },
-                {AvatarBones.LeftShoulder, new int?[] { null, null, 5124, null, 1058, null } },
-                {AvatarBones.LeftAcromion, new int?[] { null, null, null, null, 19645, null } },
-                {AvatarBones.LeftArm, new int?[] { null, null, 4189, 23237, null, null } },
-                {AvatarBones.LeftUpScale1, new int?[] { null, null, 4189, 23237, null, null } },
-                {AvatarBones.LeftForeArm, new int?[] { 25805, 1662, 26016, 25443, null, null } },
-                {AvatarBones.LeftHand, new int?[] { null, null, 6244, 6213, null, null } },
-                {AvatarBones.LeftHand2, new int?[] { null, null, 24296, null, null, null } },
-                {AvatarBones.RightShoulder, new int?[] { null, null, 2988, null, 776, null } },
-                {AvatarBones.RightAcromion, new int?[] { null, null, null, null, 11232, null } },
-                {AvatarBones.RightArm, new int?[] { null, null, 2055, 14829, null, null } },
-                {AvatarBones.RightUpScale1, new int?[] { null, null, 2055, 14829, null, null } },
-                {AvatarBones.RightForeArm, new int?[] { 7084, 28157, 28609, 7028, null, null } },
-                {AvatarBones.RightHand, new int?[] { null, null, 6853, 27220, null, null } },
-                {AvatarBones.RightHand2, new int?[] { null, null, 26898, null, null, null } },
-                {AvatarBones.Root, null }
+                { AvatarBones.Hips, new int?[] { null, null, 6602, 26148, null, null } },
+                { AvatarBones.Jushin, null },
+                { AvatarBones.LeftUpLeg, new int?[] { 4988, null, 22954, null, null, null } },
+                { AvatarBones.LeftDownScale1, new int?[] { 4988, null, 22954, 4505, null, null } },
+                { AvatarBones.LeftDownScale2, new int?[] { null, null, 22798, null, null, null } },
+                { AvatarBones.LeftGreaterTrochanter, null },
+                { AvatarBones.LeftLeg, new int?[] { null, null, 15881, 23121, null, null } },
+                { AvatarBones.LeftPatella, null },
+                { AvatarBones.LeftFoot, new int?[] { 5379, 5377, 16740, 22864, null, null } },
+                { AvatarBones.LeftAnkle, null },
+                { AvatarBones.LeftToe, new int?[] { null, null, 18199, null, 18204, null } },
+                { AvatarBones.RightUpLeg, new int?[] { null, 10729, 14546, null, null, null } },
+                { AvatarBones.RightDownScale1, new int?[] { null, 10729, 14546, null, null, null } },
+                { AvatarBones.RightDownScale2, new int?[] { null, null, 14386, null, null, null } },
+                { AvatarBones.RightGreaterTrochanter, null },
+                { AvatarBones.RightLeg, new int?[] { null, null, 7470, 14712, null, null } },
+                { AvatarBones.RightPatella, null },
+                { AvatarBones.RightFoot, new int?[] { 3250, 3252, 8342, 14457, null, null } },
+                { AvatarBones.RightAnkle, null },
+                { AvatarBones.RightToe, new int?[] { null, null, 9789, null, 9791, null } },
+                { AvatarBones.SpineWaist, new int?[] { null, null, 26259, 11860, null, null } },
+                { AvatarBones.Spine1, new int?[] { null, null, 26141, 26358, null, null } },
+                { AvatarBones.Spine2, new int?[] { null, null, 3202, 8010, null, null } },
+                { AvatarBones.Neck1, new int?[] { null, null, 3570, 924, null, null } },
+                { AvatarBones.Neck2, new int?[] { 19717, 11300, null, null, null, null } },
+                { AvatarBones.Neck3, new int?[] { 4692, 2560, null, null, null, null } },
+                { AvatarBones.LeftEarlobe, new int?[] { null, null, null, null, 24044, null } },
+                { AvatarBones.RightEarlobe, new int?[] { null, null, null, null, 15645, null } },
+                { AvatarBones.Head, new int?[] { null, null, null, null, 3225, null } },
+                { AvatarBones.LeftShoulder, new int?[] { null, null, 5124, null, 1058, null } },
+                { AvatarBones.LeftAcromion, new int?[] { null, null, null, null, 19645, null } },
+                { AvatarBones.LeftArm, new int?[] { null, null, 4189, 23237, null, null } },
+                { AvatarBones.LeftUpScale1, new int?[] { null, null, 4189, 23237, null, null } },
+                { AvatarBones.LeftForeArm, new int?[] { 25805, 1662, 26016, 25443, null, null } },
+                { AvatarBones.LeftHand, new int?[] { null, null, 6244, 6213, null, null } },
+                { AvatarBones.LeftHand2, new int?[] { null, null, 24296, null, null, null } },
+                { AvatarBones.RightShoulder, new int?[] { null, null, 2988, null, 776, null } },
+                { AvatarBones.RightAcromion, new int?[] { null, null, null, null, 11232, null } },
+                { AvatarBones.RightArm, new int?[] { null, null, 2055, 14829, null, null } },
+                { AvatarBones.RightUpScale1, new int?[] { null, null, 2055, 14829, null, null } },
+                { AvatarBones.RightForeArm, new int?[] { 7084, 28157, 28609, 7028, null, null } },
+                { AvatarBones.RightHand, new int?[] { null, null, 6853, 27220, null, null } },
+                { AvatarBones.RightHand2, new int?[] { null, null, 26898, null, null, null } },
+                { AvatarBones.Root, null },
             };
         }
     }

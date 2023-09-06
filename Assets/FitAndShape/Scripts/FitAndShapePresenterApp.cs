@@ -25,7 +25,6 @@ namespace FitAndShape
         [Inject] readonly FitAndShapeParameter _fitAndShapeParameter;
         [Inject] readonly ArrowView _arrowView;
         [Inject] readonly ModelView _modelView;
-        [Inject] readonly AvatarView _avatarView;
         [Inject] readonly RenderTextureUpdater _renderTextureUpdater;
         [Inject] readonly PosturePageFrameView _posturePageFrameView;
         [Inject] readonly PostureDetailPageFrame _postureDetailPageFrame;
@@ -37,6 +36,7 @@ namespace FitAndShape
         [Inject] readonly PostureAdviceAsset _postureAdviceAsset;
         [Inject] readonly LoadingView _loadingView;
         [Inject] readonly HeaderView _headerView;
+        [Inject] readonly MorphView _morphView;
         [Inject] readonly TabBarView _tabBarView;
         [Inject] readonly OptionView _optionView;
         [Inject] readonly FitAndShapeInfoView _fitAndShapeInfoView;
@@ -57,7 +57,7 @@ namespace FitAndShape
         DisplayState _currentState = DisplayState.None;
         bool _isLogin = false;
         int currentColor = 0;
-        
+
         bool IsDemo()
         {
             LoginData loginData = PlayerPrefsUtils.GetObject<LoginData>(LoginData.Key);
@@ -85,10 +85,7 @@ namespace FitAndShape
 
             _loadingView.Visible = false;
 
-            LoginData loginData = PlayerPrefsUtils.GetObject<LoginData>(LoginData.Key);
-            LoginInfo loginInfo = PlayerPrefsUtils.GetObject<LoginInfo>(LoginInfo.Key);
-
-            _isLogin = await LoadSystemAsync(loginData, loginInfo.FitAndShapeServiceType);
+            _isLogin = await LoadSystemAsync(AuthManager.Instance.GetLoginInfo().FitAndShapeServiceType);
 
             SetLoginData();
             RegisterEvent();
@@ -120,7 +117,8 @@ namespace FitAndShape
 
                         if (!_modelView.IsLoadPointCloud)
                         {
-                            _modelView.SetPointCloudMesh(PlyLoader.LoadAsMesh(await _client.Download("scan_data.ply"), _scale));
+                            _modelView.SetPointCloudMesh(PlyLoader.LoadAsMesh(await _client.Download("scan_data.ply"),
+                                _scale));
                         }
 
                         _modelView.PointCloudModelVisible = true;
@@ -163,7 +161,8 @@ namespace FitAndShape
 
         async UniTask LoadComment(ILoadCsvModel loadCsvModel, string measurementNumber)
         {
-            string urlString = $"{_fitAndShapeParameter.CsvUrl}/measurements/{measurementNumber.Substring(2, measurementNumber.Length - 2)}/body-distortion-comments?key={_fitAndShapeParameter.ApiKey}";
+            string urlString =
+                $"{_fitAndShapeParameter.CsvUrl}/measurements/{measurementNumber.Substring(2, measurementNumber.Length - 2)}/body-distortion-comments?key={_fitAndShapeParameter.ApiKey}";
             string commentData = await loadCsvModel.GetCsvData(urlString, _cancellationToken);
             _commentModel = new CommentModel(commentData);
         }
@@ -201,7 +200,6 @@ namespace FitAndShape
             _posturePageFrameView.OnClickAsWarningButton.Subscribe(value =>
             {
                 ShowPostureDetail(value.Number, value.Result);
-
             }).AddTo(_fitAndShapeView);
 
             _postureSummaryView.OnClick.Subscribe(value =>
@@ -209,7 +207,6 @@ namespace FitAndShape
                 _currentState = DisplayState.PostureDetail;
 
                 ShowPostureDetail(value.Number, value.Result);
-
             }).AddTo(_fitAndShapeView);
 
             _measurementView.OnClick.Subscribe(x =>
@@ -217,7 +214,6 @@ namespace FitAndShape
                 _arrowView.Select(x);
                 _arrowView.ArrowPartVisible = true;
                 _modelView.OnReset();
-
             }).AddTo(_fitAndShapeView);
 
             _measurementView.OnHistoryClick.Subscribe(x =>
@@ -236,14 +232,10 @@ namespace FitAndShape
                         _waistHistoryView.Show(x);
                         break;
                 }
-
             }).AddTo(_fitAndShapeView);
 
-            _fitAndShapeView.OnPlayerInput.Subscribe(_ =>
-            {
-                _arrowView.ArrowPartVisible = false;
-
-            }).AddTo(_fitAndShapeView);
+            _fitAndShapeView.OnPlayerInput.Subscribe(_ => { _arrowView.ArrowPartVisible = false; })
+                .AddTo(_fitAndShapeView);
 
             _headerView.OnExchangeModeClick.Subscribe(_ =>
             {
@@ -273,7 +265,6 @@ namespace FitAndShape
                 }
 
                 _headerView.ShowLogo(_fitAndShapeModelApp.FitAndShapeServiceType);
-
             }).AddTo(_fitAndShapeView);
 
             RegisterTabBarEvent();
@@ -352,6 +343,16 @@ namespace FitAndShape
                 }
             }).AddTo(_fitAndShapeView);
 
+            _morphView.OnMorphChest.Subscribe(async newValue =>
+            {
+                Debug.Log($"[OnMorphChest]: new value: {newValue}");
+                // Morph Mesh
+                Vector3 ribForward = _avatarModel.ParseVertexData(921); // ribForward
+                ribForward.x += newValue;
+                _modelView.UpdateChestMesh(921, ribForward);
+                // Morph Bone
+            });
+
             _webGroupView.SetMessageReceivedEvent(async (n) =>
             {
                 Debug.Log($"Select MeasurementNumber:{n}");
@@ -371,7 +372,7 @@ namespace FitAndShape
                 LoginData loginData = PlayerPrefsUtils.GetObject<LoginData>(LoginData.Key);
                 loginData.SetMeasurementNumber(n);
 
-                await LoadSystemAsync(loginData, _fitAndShapeModelApp.FitAndShapeServiceType);
+                await LoadSystemAsync(_fitAndShapeModelApp.FitAndShapeServiceType);
 
                 _headerView.ShowPreve("一覧へ戻る");
                 _headerView.ShowLogo(FitAndShapeServiceType.None);
@@ -388,15 +389,11 @@ namespace FitAndShape
                 _fitAndShapeInfoView.DateText = CreatedAtExtension.Format(n);
             });
 
-            _webGroupView.SetExchangePlaceEvent(n =>
-            {
-                _fitAndShapeInfoView.PlaceText = HttpUtility.UrlDecode(n);
-            });
+            _webGroupView.SetExchangePlaceEvent(n => { _fitAndShapeInfoView.PlaceText = HttpUtility.UrlDecode(n); });
 
-            _headerSelectGroupView.OnButtonClick.Subscribe(n => 
+            _headerSelectGroupView.OnButtonClick.Subscribe(n =>
             {
                 _selectItemGroupView.Show(n.SelectType, n.SelectItemType);
-
             }).AddTo(_fitAndShapeView);
 
             _selectItemGroupView.OnButtonClick.Subscribe(async n => //Here!
@@ -427,20 +424,16 @@ namespace FitAndShape
                 currentColor = GameObject.Find("Dropdown_Color").GetComponent<TMPro.TMP_Dropdown>().value;
 
                 await _webGroupView.HideAsync(_cancellationToken);
-                
+
                 _loadingView.Visible = false;
-                
+
                 _modelView.Clear();
-                
+
                 HideAll();
 
-                LoginData loginData = PlayerPrefsUtils.GetObject<LoginData>(LoginData.Key);
+                await LoadSystemAsync(_fitAndShapeModelApp.FitAndShapeServiceType);
 
-                
-                await LoadSystemAsync(loginData, _fitAndShapeModelApp.FitAndShapeServiceType);
-                
                 SetLoginData();
-
             }).AddTo(_fitAndShapeView);
 
             _tabBarView.OnProfileButtonClick.Subscribe(async _ =>
@@ -479,14 +472,9 @@ namespace FitAndShape
 
                 _headerView.ShowPreve("戻る");
                 _headerView.ShowLogo(FitAndShapeServiceType.None);
-
             }).AddTo(_fitAndShapeView);
 
-            _tabBarView.OnScanButtonClick.Subscribe(async _ =>
-            {
-                await ShowScan();
-
-            }).AddTo(_fitAndShapeView);
+            _tabBarView.OnScanButtonClick.Subscribe(async _ => { await ShowScan(); }).AddTo(_fitAndShapeView);
 
             _tabBarView.OnOptionButtonClick.Subscribe(async _ =>
             {
@@ -509,17 +497,12 @@ namespace FitAndShape
                 await _webGroupView.HideAsync(_cancellationToken);
 
                 _loadingView.Visible = false;
-
             }).AddTo(_fitAndShapeView);
         }
 
         void RegisterOptionEvent()
         {
-            _optionView.OnLoginClick.Subscribe(_ =>
-            {
-                ShowLogin();
-
-            }).AddTo(_fitAndShapeView);
+            _optionView.OnLoginClick.Subscribe(_ => { ShowLogin(); }).AddTo(_fitAndShapeView);
 
             _optionView.OnInfoClick.Subscribe(async _ =>
             {
@@ -547,14 +530,9 @@ namespace FitAndShape
                 _headerView.ShowLogo(FitAndShapeServiceType.None);
 
                 _loadingView.Visible = false;
-
             }).AddTo(_fitAndShapeView);
 
-            _optionView.OnLogoutClick.Subscribe(_ =>
-            {
-                ShowLogin();
-
-            }).AddTo(_fitAndShapeView);
+            _optionView.OnLogoutClick.Subscribe(_ => { ShowLogin(); }).AddTo(_fitAndShapeView);
         }
 
         async UniTask ShowScan()
@@ -662,19 +640,28 @@ namespace FitAndShape
             _waistHistoryView.SetCustomerId(loginData.CustomerID);
         }
 
-        async UniTask<bool> LoadSystemAsync(LoginData loginData, FitAndShapeServiceType serviceType)
+        async UniTask<bool> LoadSystemAsync(FitAndShapeServiceType serviceType, string measurementNumber = null)
         {
+            //TODO: リフレッシュトークンは存在する？
+            LoginData loginData = await AuthManager.Instance.GetLoginData();
+            if (measurementNumber != null)
+            {
+                loginData.SetMeasurementNumber(measurementNumber);
+            }
+
             try
             {
                 _loadingView.Visible = true;
                 _fitAndShapeModelApp = new FitAndShapeModelApp(serviceType);
 
-                _client = new ApiClient(_fitAndShapeParameter.Host, loginData.MeasurementNumber, string.Empty, loginData.Token);
-                           
+                _client = new ApiClient(_fitAndShapeParameter.Host, loginData.MeasurementNumber, string.Empty,
+                    loginData.Token);
+
 
                 ILoadCsvModel loadCsvModel = new LoadCsvModel();
 
-                string measurementUrlString = $"{_fitAndShapeParameter.CsvUrl}/measurements/{loginData.MeasurementNumber}?type=csv&key={_fitAndShapeParameter.ApiKey}";
+                string measurementUrlString =
+                    $"{_fitAndShapeParameter.CsvUrl}/measurements/{loginData.MeasurementNumber}?type=csv&key={_fitAndShapeParameter.ApiKey}";
                 var result = await loadCsvModel.GetResult(measurementUrlString, _cancellationToken);
 
                 if (!result.Result)
@@ -688,24 +675,27 @@ namespace FitAndShape
 
                 IMeasurementCsvLoader measurementCsvLoader = new MeasurementCsvLoader(csv.GetRowValues(0));
 
+                // obj => fbxに切り替え(peterさんのところ)
+                // TODO: パーサーのコードが上がってきていないのでobjのママ
+                // string fileName = "scan_data.fbx";
                 string fileName = "scan_data_hires.obj";
                 MemoryStream memoryStream = await _client.Download(fileName);
                 Debug.Log($@"[LoadSystemAsync]: {fileName} downloaded");
 
                 // DEBUG: wolf <- what is this?
-                if(loginData.MeasurementNumber == "FS2308086671")
-                {
-                    Debug.Log("[FS2308086671]: download scan_data.fbx start");
-                    _client = new ApiClient(_fitAndShapeParameter.Host, loginData.MeasurementNumber, string.Empty, "9PNaHRfVMLZXDIrnVyOmzpZ24Y7KaFz9XgomZvhRXqk7E7s4XpyJENDtdYr1");
-                    memoryStream = await _client.Download("scan_data.fbx");
-                    Debug.Log("[FS2308086671]: download scan_data.fbx end");
-                }             
+                // if(loginData.MeasurementNumber == "FS2308086671")
+                // {
+                //     Debug.Log("[FS2308086671]: download scan_data.fbx start");
+                //     _client = new ApiClient(_fitAndShapeParameter.Host, loginData.MeasurementNumber, string.Empty, 
+                //         PlayerPrefsUtils.GetObject<LoginData>(LoginData.Key).Token);
+                //     memoryStream = await _client.Download("scan_data.fbx");
+                //     Debug.Log("[FS2308086671]: download scan_data.fbx end");
+                // }             
 
                 _objLines = ObjLoader.LoadAsStream(memoryStream);
 
-                Transform[] bones = _avatarView.GetBones();
-
-                _avatarModel = new AvatarModel(_objLines, bones, Vector3.zero, true, AppConst.ObjLoadScale);
+                _avatarModel = new AvatarModel(_objLines, _modelView.GetSkeletonTransform(), _modelView.GetBones(),
+                    Vector3.zero, true, AppConst.ObjLoadScale);
 
                 _postureVerifyerModel = new PostureVerifyerModel(_avatarModel, measurementCsvLoader);
 
@@ -737,7 +727,10 @@ namespace FitAndShape
 
                 _headerView.ShowLogo(_fitAndShapeModelApp.FitAndShapeServiceType);
 
-                _headerSelectGroupView.SetColorType(_fitAndShapeModelApp.FitAndShapeServiceType == FitAndShapeServiceType.Measuremenet ? SelectItemType.Color : SelectItemType.Monochrome);
+                _headerSelectGroupView.SetColorType(
+                    _fitAndShapeModelApp.FitAndShapeServiceType == FitAndShapeServiceType.Measuremenet
+                        ? SelectItemType.Color
+                        : SelectItemType.Monochrome);
 
                 switch (_fitAndShapeModelApp.FitAndShapeServiceType)
                 {
@@ -825,7 +818,9 @@ namespace FitAndShape
             _arrowView.SetFieldOfView(_appParameter.GetFieldOfView(distance));
 
             Vector3 cameraPosition = _fitAndShapeParameter.CameraPosition;
-            cameraPosition.z = _fitAndShapeParameter.GetCameraPositionZ(Vector3.Distance(hieghtPosition.StartPosition, hieghtPosition.EndPosition));
+            cameraPosition.z =
+                _fitAndShapeParameter.GetCameraPositionZ(Vector3.Distance(hieghtPosition.StartPosition,
+                    hieghtPosition.EndPosition));
             cameraPosition.z = 7.5f;
 
             _arrowView.SetCameraPosition(cameraPosition);
@@ -846,16 +841,19 @@ namespace FitAndShape
         {
             _arrowView.SetCameraViewPortRect(_fitAndShapeParameter.ViewportRect);
 
-            Result[] results = GetResult(_postureVerifyerModel.GetAbnormalResultsByAngle(_fitAndShapeView.DefaultAngle));
+            Result[] results =
+                GetResult(_postureVerifyerModel.GetAbnormalResultsByAngle(_fitAndShapeView.DefaultAngle));
 
             _renderTextureUpdater.ResetCamera();
             _renderTextureUpdater.Show();
             _renderTextureUpdater.SetDisplayCamera(_fitAndShapeView.DefaultAngle);
 
-            RenderTextureController renderTextureController = _renderTextureUpdater.TargetList.Where(n => n.Angle == _fitAndShapeView.DefaultAngle).First();
+            RenderTextureController renderTextureController = _renderTextureUpdater.TargetList
+                .Where(n => n.Angle == _fitAndShapeView.DefaultAngle).First();
 
             _posturePageFrameView.Show();
-            _posturePageFrameView.CreateWarning(_fitAndShapeView.DefaultAngle, results, renderTextureController, _fitAndShapeParameter.PostureWarningOffset);
+            _posturePageFrameView.CreateWarning(_fitAndShapeView.DefaultAngle, results, renderTextureController,
+                _fitAndShapeParameter.PostureWarningOffset);
 
             _postureSummaryView.Show();
             _postureSummaryView.SetResult(results);
@@ -889,10 +887,12 @@ namespace FitAndShape
 
             _postureArrowView.Show();
             _postureArrowView.Clear();
-            _postureArrowView.DrawArrow(result, _fitAndShapeView.DefaultAngle, _renderTextureUpdater.GetDisplayCamera(_fitAndShapeView.DefaultAngle));
+            _postureArrowView.DrawArrow(result, _fitAndShapeView.DefaultAngle,
+                _renderTextureUpdater.GetDisplayCamera(_fitAndShapeView.DefaultAngle));
 
             _postureDetailView.Show();
-            _postureDetailView.SetResult(number, result, _commentModel?.GetComment(result.Point), _postureAdviceAsset.GetEntity(result.Point));
+            _postureDetailView.SetResult(number, result, _commentModel?.GetComment(result.Point),
+                _postureAdviceAsset.GetEntity(result.Point));
 
             _headerView.ShowPreve(result.Summary, number.ToString());
             _headerView.ShowLogo(FitAndShapeServiceType.None);
@@ -918,7 +918,8 @@ namespace FitAndShape
 
             string json = JsonHelper.ToJson(bodyDistortionsList);
 
-            string urlString = $"{_fitAndShapeParameter.CsvUrl}/measurements/{measurementNumber.Substring(2, measurementNumber.Length - 2)}/body-distortions?key={_fitAndShapeParameter.ApiKey}";
+            string urlString =
+                $"{_fitAndShapeParameter.CsvUrl}/measurements/{measurementNumber.Substring(2, measurementNumber.Length - 2)}/body-distortions?key={_fitAndShapeParameter.ApiKey}";
 
             ISendResultModel sendResultModel = new SendResultModel();
 
