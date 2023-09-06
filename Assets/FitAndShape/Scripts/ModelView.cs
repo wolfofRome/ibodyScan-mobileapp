@@ -14,7 +14,7 @@ namespace FitAndShape
         [SerializeField] MeshFilter _pointCloudMeshFilter;
         [SerializeField] private Skeleton _skeleton;
         
-        [Header("UI")] [SerializeField] protected Slider _skeletonSlider;
+        [Header("UI")] [SerializeField] Slider _skeletonSlider;
 
         public Vector3 Position => transform.position;
         public bool IsLoadMonochrome { get; private set; } = false;
@@ -84,6 +84,16 @@ namespace FitAndShape
             _monochromeModel.GetComponent<Renderer>().material.color = newColor;
             _pointCloudModel.GetComponent<Renderer>().material.color = newColor; // TODO: そもそもこれ効いてないよね
             _skeleton.SetAlpha(alpha);
+        }
+
+        public void UpdateChestMesh(int index, Vector3 value)
+        {
+            Debug.Log($"_monochromeMeshFilter.mesh.vertices[index]: {_monochromeMeshFilter.mesh.vertices[index]}, newValue: {value}");
+            // _monochromeMeshFilter.mesh.vertices[index] = value;
+            List<Vector3> newValues = new List<Vector3>();
+            _monochromeMeshFilter.mesh.GetVertices(newValues);
+            newValues[index] = value;
+            _monochromeMeshFilter.mesh.SetVertices(newValues);
         }
 
         /// <summary>

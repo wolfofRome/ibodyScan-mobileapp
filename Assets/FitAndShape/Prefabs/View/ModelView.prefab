@@ -51,7 +51,10 @@ MonoBehaviour:
   _pointCloudModel: {fileID: 3926820549180336398}
   _monochromeMeshFilter: {fileID: 3926820548440221034}
   _pointCloudMeshFilter: {fileID: 3926820549180336402}
+  _monochromeMeshRenderer: {fileID: 3926820548440221033}
+  _pointCloudMeshRenderer: {fileID: 3926820549180336401}
   _skeleton: {fileID: 6457227414610116753}
+  _skeletonSlider: {fileID: 0}
 --- !u!1 &3926820548440221031
 GameObject:
   m_ObjectHideFlags: 0

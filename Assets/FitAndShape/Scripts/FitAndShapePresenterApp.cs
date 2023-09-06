@@ -36,6 +36,7 @@ namespace FitAndShape
         [Inject] readonly PostureAdviceAsset _postureAdviceAsset;
         [Inject] readonly LoadingView _loadingView;
         [Inject] readonly HeaderView _headerView;
+        [Inject] readonly MorphView _morphView;
         [Inject] readonly TabBarView _tabBarView;
         [Inject] readonly OptionView _optionView;
         [Inject] readonly FitAndShapeInfoView _fitAndShapeInfoView;
@@ -341,6 +342,16 @@ namespace FitAndShape
                         break;
                 }
             }).AddTo(_fitAndShapeView);
+
+            _morphView.OnMorphChest.Subscribe(async newValue =>
+            {
+                Debug.Log($"[OnMorphChest]: new value: {newValue}");
+                // Morph Mesh
+                Vector3 ribForward = _avatarModel.ParseVertexData(921); // ribForward
+                ribForward.x += newValue;
+                _modelView.UpdateChestMesh(921, ribForward);
+                // Morph Bone
+            });
 
             _webGroupView.SetMessageReceivedEvent(async (n) =>
             {
@@ -664,6 +675,9 @@ namespace FitAndShape
 
                 IMeasurementCsvLoader measurementCsvLoader = new MeasurementCsvLoader(csv.GetRowValues(0));
 
+                // obj => fbxに切り替え(peterさんのところ)
+                // TODO: パーサーのコードが上がってきていないのでobjのママ
+                // string fileName = "scan_data.fbx";
                 string fileName = "scan_data_hires.obj";
                 MemoryStream memoryStream = await _client.Download(fileName);
                 Debug.Log($@"[LoadSystemAsync]: {fileName} downloaded");

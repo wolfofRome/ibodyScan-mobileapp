@@ -639,18 +639,9 @@ namespace FitAndShape
                 }
             }
 
-            // 手の開き方の修正
+            // 手の開き方の修正をするならここ
             {
-                // int index = 
-                // Debug.Log($"LocalRotation: {_bones[index].localRotation.x}, {_bones[index].localRotation.y}, {_bones[index].localRotation.z}");
-                _bones[(int)AvatarBones.LeftFinger1].Rotate(new Vector3(45, 0, 0));
-                // _bones[(int)AvatarBones.LeftFinger2].Rotate(Quaternion.AngleAxis(45, Vector3.up).eulerAngles);
-                _bones[(int)AvatarBones.LeftFinger2].Rotate(new Vector3());
-                // _bones[(int)AvatarBones.LeftFinger3].Rotate(new Vector3(45, 0, 0));
-                // _bones[(int)AvatarBones.LeftFinger4].Rotate(new Vector3(45, 0, 0));
-                // _bones[(int)AvatarBones.LeftFinger5].Rotate(new Vector3(45, 0, 0));
-                // _bones[(int)AvatarBones.LeftFinger11].Rotate(new Vector3(0, 0, 0));
-                // _bones[(int)AvatarBones.LeftFinger11].Rotate(new Vector3(0, 0, 0));
+                // _bones[(int)AvatarBones.LeftFinger1].Rotate(new Vector3(45, 0, 0));
             }
         }
 

@@ -22,6 +22,7 @@ namespace FitAndShape
         [SerializeField] ModelViewParameter _modelViewParameter;
         [SerializeField] LoadingView _loadingView;
         [SerializeField] HeaderView _headerView;
+        [SerializeField] MorphView _morphView;
         [SerializeField] TabBarView _tabBarView;
         [SerializeField] OptionView _optionView;
         [SerializeField] FitAndShapeInfoView _fitAndShapeInfoView;
@@ -48,6 +49,7 @@ namespace FitAndShape
             builder.RegisterComponent(_postureAdviceAsset);
             builder.RegisterComponent(_modelViewParameter);
             builder.RegisterComponent(_loadingView);
+            builder.RegisterComponent(_morphView);
 
 #if UNITY_WEBGL_API
             builder.RegisterEntryPoint<FitAndShapePresenter>(Lifetime.Singleton);
