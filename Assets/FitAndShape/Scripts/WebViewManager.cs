@@ -49,7 +49,6 @@ namespace FitAndShape
         readonly static string BaseURL = "https://fit-shape.jp/user";
         readonly static string CookieURL = "https://fit-shape.jp";
         readonly static float TransitionDuration = 0.35f;
-        readonly static string UrlSchme = "fitandshapeapp";
 
         public bool CanGoBack => _uniWebView != null && _uniWebView.CanGoBack;
 
@@ -96,27 +95,6 @@ namespace FitAndShape
             UniWebView.RemoveCookies(CookieURL);
         } 
 
-        public string GetUserAgent()
-        {
-            if (!string.IsNullOrWhiteSpace(_userAgent))
-            {
-                return _userAgent;
-            }
-
-            _userAgent = _uniWebView.GetUserAgent();
-
-#if UNITY_ANDROID
-            const string systemStr = "android";
-#else
-            const string systemStr = "ios";
-#endif
-            _userAgent += $"_{UrlSchme}_{systemStr}_{Application.version}";
-
-            //Debug.Log("UserAgent=" + _userAgent);
-
-            return _userAgent;
-        }
-
         public void Initialize()
         {
             if (_isInitialize)
@@ -130,8 +108,8 @@ namespace FitAndShape
 
             _loadingUrl = GetSiteUrl(SiteType.Home);
 
-            _uniWebView.SetUserAgent(GetUserAgent());
-            _uniWebView.AddUrlScheme(UrlSchme);
+            _uniWebView.SetUserAgent(AuthManager.Instance.GetUserAgent());
+            _uniWebView.AddUrlScheme(FSConstants.WEBVIEW_URL_SCHEME);
             _uniWebView.SetHorizontalScrollBarEnabled(false);
             _uniWebView.SetAllowHTTPAuthPopUpWindow(false);
             _uniWebView.SetShowSpinnerWhileLoading(true);
@@ -188,7 +166,7 @@ namespace FitAndShape
                 StringBuilder sb = new StringBuilder();
                 sb.AppendLine("const links = document.querySelectorAll('.app-3dModel-btn');");
                 sb.AppendLine("links.forEach(link => {");
-                sb.AppendLine("  link.href = '" + UrlSchme + "://3dmodel_'.concat(link.getAttribute('data-measurement_number')) + '_' + link.getAttribute('data-created_at') + '_' + link.getAttribute('data-place');");
+                sb.AppendLine("  link.href = '" + AuthManager.Instance.GetUserAgent() + "://3dmodel_'.concat(link.getAttribute('data-measurement_number')) + '_' + link.getAttribute('data-created_at') + '_' + link.getAttribute('data-place');");
                 sb.AppendLine("});");
                 webView.AddJavaScript(sb.ToString());
             };

@@ -23,15 +23,7 @@ namespace FitAndShape
 
                 await _webGroupView.InitializeAsync(cancellationToken);
 
-                ILoginModel loginModel = new LoginModel(_webGroupView.GetUserAgent());
-
-                LoginInfo loginInfo = PlayerPrefsUtils.GetObject<LoginInfo>(LoginInfo.Key);
-
-                LoginResponse loginResponse = await loginModel.Login(loginInfo.UserId, loginInfo.Password, cancellationToken);
-
-
-                PlayerPrefsUtils.SetObject(LoginInfo.Key, loginInfo);
-                PlayerPrefsUtils.SetObject(LoginData.Key, loginResponse.Data);
+                await AuthManager.Instance.AutoLogin(cancellationToken);
 
                 _bootView.LoadAppScene();
             }

@@ -72,18 +72,6 @@ namespace FitAndShape
             }
         }
 
-        public string GetUserAgent()
-        {
-            var item = _webViewList.FirstOrDefault();
-
-            if (item == null)
-            {
-                return string.Empty;
-            }
-
-            return item.GetUserAgent();
-        }
-
         public void SetLoginCookies(LoginData loginData)
         {
             foreach (var item in _webViewList)

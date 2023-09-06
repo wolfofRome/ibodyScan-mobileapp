@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.SceneManagement;
 
 public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBehaviour
 {
@@ -23,10 +24,11 @@ public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBe
                 // 継承先のスクリプトをアタッチしているオブジェクトを検索
                 instance = (T)FindObjectOfType(t);
 
-                // 見つからなかった場合
+                // 見つからなかった場合、ライフサイクルが狂っているのでBootからやり直す
                 if (!instance)
                 {
                     Debug.LogError(t + " がアタッチされているオブジェクトがありません");
+                    SceneManager.LoadScene("Boot");
                 }
             }
 

@@ -141,37 +141,26 @@ namespace FitAndShape
             try
             {
                 _loadingView.Visible = true;
-
-                ILoginModel loginModel = new LoginModel(_webGroupView.GetUserAgent());
-
-                LoginResponse loginResponse;
-
-                LoginInfo loginInfo = PlayerPrefsUtils.GetObject<LoginInfo>(LoginInfo.Key);
-
                 switch (loginType)
                 {
                     case LoginType.Demo:
-
-                        loginInfo = new LoginInfo() { UserId = string.Empty, Password = string.Empty };
-                        loginResponse = await loginModel.Login(loginInfo.UserId, loginInfo.Password, _cancellationToken);
+                        await AuthManager.Instance.LoginAsDemo(_serviceTypeGroupView.FitAndShapeServiceType, 
+                            _cancellationToken);
                         break;
                     case LoginType.Auto:
-                        loginResponse = await loginModel.Login(loginInfo.UserId, loginInfo.Password, _cancellationToken);
+                        await AuthManager.Instance.AutoLogin(_cancellationToken);
                         break;
                     default:
-                        loginResponse = await loginModel.Login(_loginView.UserID, _loginView.Password, _cancellationToken);
-                        loginInfo = new LoginInfo() { UserId = _loginView.UserID, Password = _loginView.Password };
+                        // ID/PW入力はここに落ちるらしい
+                        await AuthManager.Instance.LoginWithInput(_serviceTypeGroupView.FitAndShapeServiceType,
+                            _loginView.UserID, _loginView.Password, _cancellationToken);
                         break;
                 }
 
+                // 上の処理でログインに失敗した場合はExceptionが投げられるので、以下はログイン成功時の処理
                 _loginView.ErrorMessage = string.Empty;
 
-                loginInfo.FitAndShapeServiceType = _serviceTypeGroupView.FitAndShapeServiceType;
-
-                Debug.Log($"save login response, token: {loginResponse.Data.Token}");
-                PlayerPrefsUtils.SetObject(LoginInfo.Key, loginInfo);
-                PlayerPrefsUtils.SetObject(LoginData.Key, loginResponse.Data);
-
+                Debug.Log($"Login as {loginType} succeed. token: {AuthManager.Instance.GetLoginData().Token}");
                 SceneManager.LoadScene(FitAndShapePresenterApp.SceneName);
             }
             catch (Exception ex)

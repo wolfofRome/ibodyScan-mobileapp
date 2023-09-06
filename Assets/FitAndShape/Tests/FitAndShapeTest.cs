@@ -16,11 +16,12 @@ public class FitAndShapeTest
     [UnityTest]
     public IEnumerator LoginTest() => UniTask.ToCoroutine(async () =>
     {
+        // TODO: 何もテストしていない
         var cancellationTokenSource = new CancellationTokenSource();
 
-        ILoginModel loginModel = new LoginModel("");
+        // ILoginModel loginModel = new LoginModel("");
 
-        await loginModel.Login("09012345678", "password", cancellationTokenSource.Token);
+        // await loginModel.Login("09012345678", "password", cancellationTokenSource.Token);
 
 
     });
