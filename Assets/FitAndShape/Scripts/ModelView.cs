@@ -82,7 +82,7 @@ namespace FitAndShape
             Color newColor = _monochromeModel.GetComponent<Renderer>().material.color;
             newColor.a = 1 - alpha;
             _monochromeModel.GetComponent<Renderer>().material.color = newColor;
-            _pointCloudModel.GetComponent<Renderer>().material.color = newColor; // TODO: そもそもこれ効いてないよね
+            _pointCloudModel.GetComponent<Renderer>().material.color = newColor; // TODO: 効いてない
             _skeleton.SetAlpha(alpha);
         }
 

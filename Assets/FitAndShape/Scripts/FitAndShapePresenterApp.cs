@@ -347,9 +347,33 @@ namespace FitAndShape
             {
                 Debug.Log($"[OnMorphChest]: new value: {newValue}");
                 // Morph Mesh
-                Vector3 ribForward = _avatarModel.ParseVertexData(921); // ribForward
-                ribForward.x += newValue;
-                _modelView.UpdateChestMesh(921, ribForward);
+                // Vector3 ribForward = _avatarModel.ParseVertexData(921); // ribForward
+                // ribForward.x += newValue;
+                // _modelView.UpdateChestMesh(921, ribForward);
+                // Morph Bone
+            });
+            _morphView.OnMorphWaist.Subscribe(async newValue =>
+            {
+                Debug.Log($"[OnMorphWaist]: new value: {newValue}");
+                // Morph Mesh
+                // Morph Bone
+            });
+            _morphView.OnMorphHip.Subscribe(async newValue =>
+            {
+                Debug.Log($"[OnMorphHip]: new value: {newValue}");
+                // Morph Mesh
+                // Morph Bone
+            });
+            _morphView.OnMorphArm.Subscribe(async newValue =>
+            {
+                Debug.Log($"[OnMorphArm]: new value: {newValue}");
+                // Morph Mesh
+                // Morph Bone
+            });
+            _morphView.OnMorphLeg.Subscribe(async newValue =>
+            {
+                Debug.Log($"[OnMorphLeg]: new value: {newValue}");
+                // Morph Mesh
                 // Morph Bone
             });
 

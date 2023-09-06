@@ -19,6 +19,14 @@ public class MorphView : MonoBehaviour
     
     public IObservable<float> OnMorphChest => _onMorphChest;
     Subject<float> _onMorphChest = new Subject<float>();
+    public IObservable<float> OnMorphWaist => _onMorphWaist;
+    Subject<float> _onMorphWaist = new Subject<float>();
+    public IObservable<float> OnMorphHip => _onMorphHip;
+    Subject<float> _onMorphHip = new Subject<float>();
+    public IObservable<float> OnMorphArm => _onMorphArm;
+    Subject<float> _onMorphArm = new Subject<float>();
+    public IObservable<float> OnMorphLeg => _onMorphLeg;
+    Subject<float> _onMorphLeg = new Subject<float>();
     
     // Start is called before the first frame update
     void Start()
@@ -48,18 +56,18 @@ public class MorphView : MonoBehaviour
     }
     public void OnChangeWaistSliderValue(float value)
     {
-        
+        _onMorphWaist.OnNext(value);
     }
     public void OnChangeHipSliderValue(float value)
     {
-        
+        _onMorphHip.OnNext(value);
     }
     public void OnChangeArmSliderValue(float value)
     {
-        
+        _onMorphArm.OnNext(value);
     }
     public void OnChangeLegSliderValue(float value)
     {
-        
+        _onMorphLeg.OnNext(value);
     }
 }

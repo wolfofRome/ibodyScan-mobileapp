@@ -33,7 +33,6 @@ namespace FitAndShape
         public static async UniTask<UnityWebRequest> GetRequest(string url, string bearerToken,
             int maxRetry = 3)
         {
-            // ドメインルート「/」から始まるSSTalk APIにフォームリクエストを送信する
             int retry = 0;
             UnityWebRequest request = null;
 
@@ -82,7 +81,6 @@ namespace FitAndShape
                     request = null;
                 }
 
-                // ドメインルート「/」から始まるSSTalk APIにフォームリクエストを送信する
                 request = UnityWebRequest.Post(url, form);
                 request.timeout = UNITY_POST_REQUEST_TIMEOUT_SEC;
                 request.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded");
