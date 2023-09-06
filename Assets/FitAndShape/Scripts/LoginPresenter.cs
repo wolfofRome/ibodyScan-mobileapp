@@ -160,7 +160,7 @@ namespace FitAndShape
                 // 上の処理でログインに失敗した場合はExceptionが投げられるので、以下はログイン成功時の処理
                 _loginView.ErrorMessage = string.Empty;
 
-                Debug.Log($"Login as {loginType} succeed. token: {AuthManager.Instance.GetLoginData().Token}");
+                Debug.Log($"Login as {loginType} succeed.");
                 SceneManager.LoadScene(FitAndShapePresenterApp.SceneName);
             }
             catch (Exception ex)

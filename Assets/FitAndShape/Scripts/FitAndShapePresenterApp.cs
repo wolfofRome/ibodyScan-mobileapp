@@ -632,7 +632,7 @@ namespace FitAndShape
         async UniTask<bool> LoadSystemAsync(FitAndShapeServiceType serviceType, string measurementNumber = null)
         {
             //TODO: リフレッシュトークンは存在する？
-            LoginData loginData = AuthManager.Instance.GetLoginData();
+            LoginData loginData = await AuthManager.Instance.GetLoginData();
             if (measurementNumber != null)
             {
                 loginData.SetMeasurementNumber(measurementNumber);

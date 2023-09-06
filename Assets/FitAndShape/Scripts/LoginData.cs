@@ -16,6 +16,7 @@ namespace FitAndShape
         [SerializeField] string created_at;
         [SerializeField] string token;
         [SerializeField] int height;
+        [SerializeField] private int lastUpdatedAt;
 
         public string UserSession => fitandshape_user_session;
         public string CustomerID => customer_id;
@@ -25,9 +26,17 @@ namespace FitAndShape
         public string CreatedAt => CreatedAtExtension.Format(created_at);
         public string Token => token;
         public int Height => height;
+
+        public int LastUpdatedAt => lastUpdatedAt;
+
         public void SetMeasurementNumber(string value)
         {
             measurement_number = value;
+        }
+
+        public void SetLastUpdatedAt(int value)
+        {
+            lastUpdatedAt = value;
         }
 
         public override string ToString()

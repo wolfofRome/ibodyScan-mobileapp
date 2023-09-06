@@ -31,6 +31,7 @@ namespace FitAndShape
         // TODO: 定数クラスに移動
         readonly static string LOGIN_URL = "https://api.fit-shape.jp/api/app/login";
         readonly static string DEMO_LOGIN_URL = "https://api.fit-shape.jp/api/app/demo-login";
+        private readonly static int AUTH_REFRESH_RATE_SECONDS = 90 * 60; 
 
         // Start is called before the first frame update
         void Start()
@@ -148,11 +149,23 @@ namespace FitAndShape
             return _userAgent;
         }
 
-        public LoginData GetLoginData()
+        public async UniTask<LoginData> GetLoginData()
         {
             if (_loginData == null)
             {
                 _loginData = PlayerPrefsUtils.GetObject<LoginData>(LoginData.Key);
+            }
+
+            // 一定期間リフレッシュされていなかったら
+            if (GetUnixTime() - _loginData.LastUpdatedAt > AUTH_REFRESH_RATE_SECONDS)
+            {
+                LoginInfo loginInfo = GetLoginInfo();
+                if (!String.IsNullOrEmpty(loginInfo.UserId) && !String.IsNullOrEmpty(loginInfo.Password))
+                {
+                    CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+                    CancellationToken cancellationToken = cancellationTokenSource.Token;
+                    await AutoLogin(cancellationToken);
+                }
             }
 
             return _loginData;
@@ -165,6 +178,7 @@ namespace FitAndShape
 
         public void SetLoginData(LoginData loginData)
         {
+            loginData.SetLastUpdatedAt(GetUnixTime());
             _loginData = loginData;
             PlayerPrefsUtils.SetObject(LoginData.Key, loginData);
         }
@@ -172,6 +186,11 @@ namespace FitAndShape
         public void SetLoginInfo(LoginInfo loginInfo)
         {
             PlayerPrefsUtils.SetObject(LoginInfo.Key, loginInfo);
+        }
+
+        private int GetUnixTime()
+        {
+            return (int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
         }
     }
 }
