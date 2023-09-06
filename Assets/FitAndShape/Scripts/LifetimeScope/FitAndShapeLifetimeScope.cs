@@ -10,7 +10,6 @@ namespace FitAndShape
         [SerializeField] FitAndShapeView _fitAndShapeView;
         [SerializeField] ArrowView _arrowView;
         [SerializeField] ModelView _modelView;
-        [SerializeField] AvatarView _avatarView;
         [SerializeField] RenderTextureUpdater _renderTextureUpdater;
         [SerializeField] PosturePageFrameView _posturePageFrameView;
         [SerializeField] PostureDetailPageFrame _postureDetailPageFrame;
@@ -38,7 +37,6 @@ namespace FitAndShape
             builder.RegisterComponent(_fitAndShapeView);
             builder.RegisterComponent(_arrowView);
             builder.RegisterComponent(_modelView);
-            builder.RegisterComponent(_avatarView);
             builder.RegisterComponent(_renderTextureUpdater);
             builder.RegisterComponent(_posturePageFrameView);
             builder.RegisterComponent(_postureDetailPageFrame);

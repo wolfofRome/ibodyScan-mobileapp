@@ -25,7 +25,6 @@ namespace FitAndShape
         [Inject] readonly FitAndShapeParameter _fitAndShapeParameter;
         [Inject] readonly ArrowView _arrowView;
         [Inject] readonly ModelView _modelView;
-        [Inject] readonly AvatarView _avatarView;
         [Inject] readonly RenderTextureUpdater _renderTextureUpdater;
         [Inject] readonly PosturePageFrameView _posturePageFrameView;
         [Inject] readonly PostureDetailPageFrame _postureDetailPageFrame;
@@ -704,7 +703,7 @@ namespace FitAndShape
 
                 _objLines = ObjLoader.LoadAsStream(memoryStream);
 
-                Transform[] bones = _avatarView.GetBones();
+                Transform[] bones = _modelView.GetBones();
 
                 _avatarModel = new AvatarModel(_objLines, bones, Vector3.zero, true, AppConst.ObjLoadScale);
 

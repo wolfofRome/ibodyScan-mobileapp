@@ -6,12 +6,15 @@ namespace FitAndShape
     {
         private static readonly Dictionary<AvatarBones, string> AvatarBonesNameMap = new Dictionary<AvatarBones, string>
         {
-            {AvatarBones.Hips, "hips"},
-            {AvatarBones.Jushin, "Jushin"},
-            {AvatarBones.LeftUpLeg, "LeftUpLeg"},
+            // {AvatarBones.Hips, "hips"},
+            {AvatarBones.Hips, "spine"}, // 恥骨
+            {AvatarBones.Jushin, "spine"}, // 骨盤の中心？
+            // {AvatarBones.Jushin, "Jushin"},
+            {AvatarBones.LeftUpLeg, "thigh.L"},
+            // {AvatarBones.LeftUpLeg, "LeftUpLeg"},
             {AvatarBones.LeftDownScale1, "LeftDownScale1"},
             {AvatarBones.LeftDownScale2, "LeftDownScale2"},
-            {AvatarBones.LeftGreaterTrochanter, "Daitenshi_L"},
+            {AvatarBones.LeftGreaterTrochanter, "Daitenshi_L"},　// 大転子 -> 太ももの外側の付け根
             {AvatarBones.LeftLeg, "LeftLeg"},
             {AvatarBones.LeftPatella, "Hizagashira_L"},
             {AvatarBones.LeftFoot, "LeftFoot"},
