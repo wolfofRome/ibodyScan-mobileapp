@@ -9,6 +9,7 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.TestTools;
 using FitAndShape;
 using System;
+using System.Linq;
 using System.Threading;
 
 public class FitAndShapeTest
@@ -16,14 +17,12 @@ public class FitAndShapeTest
     [UnityTest]
     public IEnumerator LoginTest() => UniTask.ToCoroutine(async () =>
     {
-        // TODO: 何もテストしていない
-        var cancellationTokenSource = new CancellationTokenSource();
+        // ロジック変更によりコメントアウト
+        // var cancellationTokenSource = new CancellationTokenSource();
 
         // ILoginModel loginModel = new LoginModel("");
 
         // await loginModel.Login("09012345678", "password", cancellationTokenSource.Token);
-
-
     });
 
     [UnityTest]
@@ -109,5 +108,20 @@ public class FitAndShapeTest
             Debug.LogError(ex.Message);
         }
     });
-
+    
+    [UnityTest]
+    public IEnumerator FilterBoneNames() => UniTask.ToCoroutine(async () =>
+    {
+        try
+        {
+            string[] avatarBoneNames = Enum.GetNames(typeof(AvatarBones));
+            int length = avatarBoneNames.Where(
+                name => !name.Contains("Finger")).ToArray().Length;
+            Debug.Log($"length: {length}");
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError(ex.Message);
+        }
+    });
 }

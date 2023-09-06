@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace FitAndShape
 {
@@ -12,6 +13,8 @@ namespace FitAndShape
         [SerializeField] MeshFilter _monochromeMeshFilter;
         [SerializeField] MeshFilter _pointCloudMeshFilter;
         [SerializeField] private Skeleton _skeleton;
+        
+        [Header("UI")] [SerializeField] protected Slider _skeletonSlider;
 
         public Vector3 Position => transform.position;
         public bool IsLoadMonochrome { get; private set; } = false;
@@ -21,6 +24,12 @@ namespace FitAndShape
         public bool PointCloudModelVisible { get { return _pointCloudModel.activeSelf; } set { _pointCloudModel.SetActive(value); } }
 
         Vector3 _defaultPosition;
+
+        private void Start()
+        {
+            _skeletonSlider.onValueChanged.AddListener((newValue => { OnUpdateAlphaSlider(newValue);}));
+            _skeletonSlider.value = 0;
+        }
 
         public void SetPosition(Vector3 value)
         {
@@ -75,6 +84,15 @@ namespace FitAndShape
             _monochromeModel.GetComponent<Renderer>().material.color = newColor;
             _pointCloudModel.GetComponent<Renderer>().material.color = newColor; // TODO: そもそもこれ効いてないよね
             _skeleton.SetAlpha(alpha);
+        }
+
+        /// <summary>
+        /// SkeletonのTransformを渡す（Bonesの整形ロジック時にScaleを書き換えるため）
+        /// </summary>
+        /// <returns></returns>
+        public Transform GetSkeletonTransform()
+        {
+            return _skeleton.transform;
         }
         
         // 以下、AvatarViewからの移植

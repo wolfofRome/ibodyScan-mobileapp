@@ -45,6 +45,38 @@
         RightForeArm = 40,
         RightHand = 41,
         RightHand2 = 42,
-        Root = 43
+        Root = 43,
+        
+        // Add 20230901
+        RightFinger1 = 44, // 親指
+        RightFinger11 = 45,
+        RightFinger12 = 46,
+        RightFinger2 = 47,
+        RightFinger21 = 48,
+        RightFinger22 = 49,
+        RightFinger3 = 50,
+        RightFinger31 = 51,
+        RightFinger32 = 52,
+        RightFinger4 = 53,
+        RightFinger41 = 54,
+        RightFinger42 = 55,
+        RightFinger5 = 56,
+        RightFinger51 = 57,
+        RightFinger52 = 58,
+        LeftFinger1 = 59, // 親指
+        LeftFinger11 = 60,
+        LeftFinger12 = 61,
+        LeftFinger2 = 62,
+        LeftFinger21 = 63,
+        LeftFinger22 = 64,
+        LeftFinger3 = 65,
+        LeftFinger31 = 66,
+        LeftFinger32 = 67,
+        LeftFinger4 = 68,
+        LeftFinger41 = 69,
+        LeftFinger42 = 70,
+        LeftFinger5 = 71,
+        LeftFinger51 = 72,
+        LeftFinger52 = 73,
     }
 }

@@ -217,7 +217,7 @@ namespace FitAndShape
         {
             Transform[] bones = _modelView.GetBones();
 
-            _avatarModel = new AvatarModel(objLines, bones, Vector3.zero, true, AppConst.ObjLoadScale);
+            _avatarModel = new AvatarModel(objLines, null, bones, Vector3.zero, true, AppConst.ObjLoadScale);
 
             _postureVerifyerModel = new PostureVerifyerModel(_avatarModel, measurementCsvLoader);
 

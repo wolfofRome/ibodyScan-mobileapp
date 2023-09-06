@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Skeleton : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class Skeleton : MonoBehaviour
     [Header("MetaRig")]
     [SerializeField]
     protected GameObject _metaRig;
-    
+
     private static readonly int Color1 = Shader.PropertyToID("_Color"); // Standard Shaderの色のプロパティ値
     
     // Start is called before the first frame update
