@@ -85,11 +85,7 @@ namespace FitAndShape
 
             _loadingView.Visible = false;
 
-            //TODO: リフレッシュトークンは存在する？
-            LoginData loginData = PlayerPrefsUtils.GetObject<LoginData>(LoginData.Key);
-            LoginInfo loginInfo = PlayerPrefsUtils.GetObject<LoginInfo>(LoginInfo.Key);
-
-            _isLogin = await LoadSystemAsync(loginData, loginInfo.FitAndShapeServiceType);
+            _isLogin = await LoadSystemAsync(AuthManager.Instance.GetLoginInfo().FitAndShapeServiceType);
 
             SetLoginData();
             RegisterEvent();
@@ -372,7 +368,7 @@ namespace FitAndShape
                 LoginData loginData = PlayerPrefsUtils.GetObject<LoginData>(LoginData.Key);
                 loginData.SetMeasurementNumber(n);
 
-                await LoadSystemAsync(loginData, _fitAndShapeModelApp.FitAndShapeServiceType);
+                await LoadSystemAsync(_fitAndShapeModelApp.FitAndShapeServiceType);
 
                 _headerView.ShowPreve("一覧へ戻る");
                 _headerView.ShowLogo(FitAndShapeServiceType.None);
@@ -435,10 +431,7 @@ namespace FitAndShape
                 
                 HideAll();
 
-                LoginData loginData = PlayerPrefsUtils.GetObject<LoginData>(LoginData.Key);
-
-                
-                await LoadSystemAsync(loginData, _fitAndShapeModelApp.FitAndShapeServiceType);
+                await LoadSystemAsync(_fitAndShapeModelApp.FitAndShapeServiceType);
                 
                 SetLoginData();
 
@@ -663,8 +656,14 @@ namespace FitAndShape
             _waistHistoryView.SetCustomerId(loginData.CustomerID);
         }
 
-        async UniTask<bool> LoadSystemAsync(LoginData loginData, FitAndShapeServiceType serviceType)
+        async UniTask<bool> LoadSystemAsync(FitAndShapeServiceType serviceType, string measurementNumber = null)
         {
+            //TODO: リフレッシュトークンは存在する？
+            LoginData loginData = AuthManager.Instance.GetLoginData();
+            if (measurementNumber != null)
+            {
+                loginData.SetMeasurementNumber(measurementNumber);
+            }
             try
             {
                 _loadingView.Visible = true;
